@@ -1,0 +1,109 @@
+.header { 
+	width:100vw;
+	height:101px;
+	position:absolute;
+	left:0px;
+	top:0px;
+    z-index:3;
+}
+
+.header_bg_light { 
+	box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);
+	background-image:linear-gradient(0deg, rgba(0, 0, 0, 0.10000000149011612) 0%,rgba(115.00000074505806, 115.00000074505806, 115.00000074505806, 0) 100%) ;
+	width: 100%;
+	height:101px;
+	position:absolute;
+	left:0px;
+	top:0px;
+}
+
+.header_logo { 
+	width:247px;
+	height:82px;
+	position:relative;
+	left:5rem;
+	top:9px;
+    z-index: 4;
+}
+.header_logo_lbl_light { 
+	color:rgba(255, 255, 255, 1);
+	width:165px;
+	height:44px;
+	position:absolute;
+	left:82px;
+	top: 12px;
+	font-family:PT Sans Caption;
+	text-align:center;
+	font-size:36px;
+	letter-spacing:0;
+    z-index: 4;
+	font-weight: bold;
+}
+.header_img_light { 
+	width:82px;
+	height:82px;
+	position:absolute;
+	left:0px;
+	top:0px;
+	background-image:url(http://127.0.0.1:9000/test/logo_light.png);
+	background-repeat:no-repeat;
+	background-size:cover;
+    z-index: 4;
+}
+
+.header_bg_dark { 
+	box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);
+	background-image:linear-gradient(90deg, rgb(255, 255, 255) 0%,rgb(223, 242, 255) 100%) ;
+	width: 100%;
+	height:101px;
+	position:absolute;
+	left:0px;
+	top:0px;
+}
+
+.header_logo_lbl_dark { 
+	color:rgb(0, 0, 0);
+	width:165px;
+	height:44px;
+	position:absolute;
+	left:82px;
+	top: 12px;
+	font-family:PT Sans Caption;
+	text-align:center;
+	font-size:36px;
+	letter-spacing:0;
+    z-index: 4;
+	font-weight: bold;
+}
+.header_img_dark { 
+	width:82px;
+	height:82px;
+	position:absolute;
+	left:0px;
+	top:0px;
+	background-image:url(http://127.0.0.1:9000/test/logo_dark.png);
+	background-repeat:no-repeat;
+	background-size:cover;
+    z-index: 4;
+}
+
+.navigation{
+	position: absolute;
+	right:30px;
+	margin:0;
+	padding:0;
+	top:27px;
+	background-color: transparent !important;
+	font-family: PT Sans Caption;
+	font-size: 20px;
+}
+
+.dark{
+	--bs-navbar-color: rgba(9, 38, 85, 0.96) !important;
+	--bs-navbar-hover-color: rgba(var(--bs-navbar-color), 0.8) !important;
+}
+
+.light {
+	--bs-navbar-color: rgba(255, 255, 255, 0.897) !important;
+	--bs-navbar-hover-color: rgba(var(--bs-navbar-color), 0.8) !important;
+}

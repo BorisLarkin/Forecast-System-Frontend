@@ -1,0 +1,111 @@
+/* Стили для контейнера */
+.main-container {
+    display: flex;
+    flex-direction: column; /* Вертикальная ориентация */
+    align-items: center; /* Центрируем по горизонтали     justify-content: center; /* Центрируем по вертикали */
+    height: calc(100vh - 101px); /* Занимает всю высоту экрана минус высота навигационной панели */
+	width:100vw;
+    text-align: center; /* Центрирует текст */
+    gap: 20px; /* Расстояние между элементами */
+    margin-top: 101px;
+}
+
+.home { 
+	background-color:rgba(245.43749392032623, 245.43749392032623, 245.43749392032623, 1);
+	width:1920px;
+	height:auto;
+}
+.home_bg_img { 
+	width:1920px;
+	height:100vh;
+	position:absolute;
+	top:0px;
+	left:0px;
+	background-image:url(http://127.0.0.1:9000/test/clouds.gif);
+	background-repeat:no-repeat;
+	background-size:cover;
+	background-color: rgb(37, 37, 37);
+}
+.home_bg_fade { 
+	background-color:rgba(45.00394530594349, 0, 141.31250202655792, 0.03999999910593033);
+	width:1920px;
+	height:calc(100vh - 101px);
+	position:absolute;
+	z-index: 2;
+}
+.home_body {
+	top:360px;
+	position: absolute;
+	display: flex;
+    flex-direction: column; /* Вертикальная ориентация */
+    align-items: center; /* Центрируем по горизонтали */
+    justify-content: center; /* Центрируем по вертикали */
+    height: auto; /* Занимает всю высоту экрана минус высота навигационной панели */
+    text-align: center; /* Центрирует текст */
+    gap: 30px; /* Расстояние между элементами */
+	width:522px;
+	z-index:3;
+}
+.home_title { 
+	color:rgba(255, 255, 255, 1);
+	width:522px;
+	height:65px;
+	font-family:PT Sans Caption;
+	text-align:center;
+	font-size:64px;
+	letter-spacing:0;
+	font-weight: bold;
+}
+.home_desc { 
+	color:rgba(255, 255, 255, 1);
+	width:400px;
+	height:69px;
+	font-family:PT Sans Caption;
+	text-align:center;
+	font-size:24px;
+	letter-spacing:0;
+}
+.btn_resume { 
+	width:300px;
+	height:56px;
+	box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);
+	background-color:rgba(0, 0, 0, 0.26);
+	border-radius: 28px;
+	font-family:PT Sans Caption;
+	text-align:center;
+	font-size:24px;
+	letter-spacing:0;
+	color: white;
+	z-index: 3;
+	margin-top: 230px;
+}
+.resume_bg { 
+	box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);
+	background-color:rgba(255, 255, 255, 0.07000000029802322);
+	width:300px;
+	height:56px;
+	border-top-left-radius:28px;
+	border-top-right-radius:28px;
+	border-bottom-left-radius:28px;
+	border-bottom-right-radius:28px;
+}
+.resume_lbl { 
+	color:rgba(255, 255, 255, 1);
+	width:300px;
+	height:56px;
+	font-family:PT Sans Caption;
+	text-align:center;
+	font-size:24px;
+	letter-spacing:0;
+}
+
+.header_bg { 
+	background-image:linear-gradient(0deg, rgba(0, 0, 0, 0.10000000149011612) 0%,rgba(115.00000074505806, 115.00000074505806, 115.00000074505806, 0) 100%) !important;
+}
+
+.header_logo_lbl { 
+	color:rgba(255, 255, 255, 1) !important;
+}
+.header_img { 
+	background-image:url(http://127.0.0.1:9000/test/logo_light.png) !important;
+}
