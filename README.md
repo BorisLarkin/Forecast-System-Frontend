@@ -4,10 +4,10 @@
 
 ## [Бэкенд](https://github.com/BorisLarkin/web/tree/master)
 
-## Фронтенд (Вы здесь)
+## [Фронтенд](https://github.com/BorisLarkin/Forecast-System-Frontend)
 
 ### Ветки
-- **React**: копия SSR версии приложения с моковыми данными
+- **React** (вы сейчас здесь): копия SSR версии приложения с моковыми данными
 - **Redux**: добавлена адаптивность и развертывание
 - **gh-pages**: ветка для развертывания на github pages
 - **tauri**: ветка с десктопным приложением Tauri
