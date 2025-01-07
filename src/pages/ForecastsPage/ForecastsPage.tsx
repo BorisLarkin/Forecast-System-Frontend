@@ -14,7 +14,7 @@ const ForecastsPage = () => {
     const [cartCount, setCount] = useState(0);
     const [draftID, setDraftID] = useState(0);
 
-    const fetchData = async () => {
+    const fetchForecasts = async () => {
         try {
             const response = await fetch(`/api/forecasts?forecast_name=${name.toLowerCase()}`, { signal: AbortSignal.timeout(5000) });
 
@@ -53,11 +53,11 @@ const ForecastsPage = () => {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        await fetchData();
+        await fetchForecasts();
     };
 
     useEffect(() => {
-        fetchData();
+        fetchForecasts();
     }, []);
 
     return (

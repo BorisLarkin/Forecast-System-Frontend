@@ -15,7 +15,7 @@ const ForecastPage: React.FC = () => {
     const [Forecast, setForecast] = useState<Forecast | null>(null);
     const [isMock, setIsMock] = useState(false);
 
-    const fetchData = async () => {
+    const fetchForecast = async () => {
         try {
             const response = await fetch(`/api/forecast/${id}`, { signal: AbortSignal.timeout(3000) });
             if (!response.ok) throw new Error('Network response has failed');
@@ -50,7 +50,7 @@ const ForecastPage: React.FC = () => {
             const mockForecast = Forecasts_Mock.find(Forecast => Forecast?.id === idNum) as Forecast;
             setForecast(mockForecast);
         } else {
-            fetchData();
+            fetchForecast();
         }
 
         return () => {
