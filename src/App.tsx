@@ -9,7 +9,7 @@ function App({setMode} : {setMode : React.Dispatch<React.SetStateAction<string>>
     setMode("dark") //by default
     console.log("Written dark")
     return (
-        <BrowserRouter>
+        <BrowserRouter basename="/Forecast-System-Frontend">
             <Routes>
                 <Route path={ROUTES.HOME} index element={<MainPage setMode={setMode}/>} />
                 <Route path={ROUTES.FORECASTS} element={<ForecastsPage/>} />
