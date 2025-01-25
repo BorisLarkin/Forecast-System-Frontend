@@ -6,6 +6,7 @@ import "./ForecastsPage.css";
 import { BreadCrumbs } from "../../components/BreadCrumbs/BreadCrumbs.tsx";
 import {ROUTE_LABELS, ROUTES} from "../../Routes.tsx";
 import "../../components/global.css"
+import { Link } from "react-router-dom";
 
 const ForecastsPage = () => {
     const [forecasts, setForecasts] = useState<Forecast[]>([]);
@@ -64,14 +65,14 @@ const ForecastsPage = () => {
         <div className="body">
             <BreadCrumbs crumbs={[{ label: ROUTE_LABELS.FORECASTS, path: ROUTES.FORECASTS }]} />
             {cartCount !== 0 ? (
-                <a href={`/prediction/${draftID}`}>
+                <Link to={`${ROUTES.PREDICTION}${draftID}`}>
                     <div className="prediction granted">
                         <div className="prediction_size_bg">
                           <span className="prediction_size">{cartCount}</span>
                         </div>
                         <div className="prediction_img"></div>
                     </div>
-                </a>
+                </Link>
             ) : (
                 <div className="prediction restricted">
                     <div className="prediction_img"></div>
