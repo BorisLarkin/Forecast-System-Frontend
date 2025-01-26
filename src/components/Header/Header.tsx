@@ -7,8 +7,14 @@ import { Link } from 'react-router-dom';
 interface Prop{mode: string,}
 
 const Header: React.FC<Prop> = (prop: Prop) => {
-    var isLight = (prop.mode=="light")
-    console.log(isLight, prop.mode)
+    if (prop.mode=="light" || prop.mode=="dark"){
+      var isLight = (prop.mode=="light")
+      console.log(isLight, prop.mode)
+    }
+    else{
+      var isLight = false
+      console.log(isLight, "by default")
+    }
     return (
         <div className='header'>
             <div className={`${isLight ? 'header_bg_light' : 'header_bg_dark'}`}></div>
