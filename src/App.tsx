@@ -5,15 +5,13 @@ import ForecastPage from "./pages/ForecastPage/ForecastPage";
 import { ROUTES } from "./Routes";
 
 
-function App({setMode} : {setMode : React.Dispatch<React.SetStateAction<string>>}) {
-    setMode("dark") //by default
-    console.log("Written dark")
+function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path={ROUTES.HOME} index element={<MainPage setMode={setMode}/>} />
-                <Route path={ROUTES.FORECASTS} element={<ForecastsPage setMode={setMode}/>} />
-                <Route path={`${ROUTES.FORECAST}:id`} element={<ForecastPage setMode={setMode}/>} />
+                <Route path={ROUTES.HOME} index element={<MainPage/>} />
+                <Route path={ROUTES.FORECASTS} element={<ForecastsPage/>} />
+                <Route path={`${ROUTES.FORECAST}:id`} element={<ForecastPage/>} />
             </Routes>
         </BrowserRouter>
     );

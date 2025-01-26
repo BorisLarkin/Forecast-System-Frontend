@@ -1,20 +1,22 @@
 import { Nav, Navbar,Container } from 'react-bootstrap';
 import {ROUTES} from "../../Routes"
+import { RootState } from "../../store/store";
 import "./Header.css"
 import "../global.css"
 import { Link } from 'react-router-dom';
+import { useSelector } from "react-redux";
+import { useEffect } from 'react';
 
-interface Prop{mode: string,}
 
-const Header: React.FC<Prop> = (prop: Prop) => {
-    if (prop.mode=="light" || prop.mode=="dark"){
-      var isLight = (prop.mode=="light")
-      console.log(isLight, prop.mode)
-    }
-    else{
-      var isLight = false
-      console.log(isLight, "by default")
-    }
+const Header: React.FC = () => {
+  const mode = useSelector((state: RootState) => state.mode.header);
+  var isLight = (mode=="light")
+
+  useEffect(() => {
+    isLight = (mode=="light")
+    console.log("checked header: ", mode)
+  }, [mode]);
+
     return (
         <div className='header'>
             <div className={`${isLight ? 'header_bg_light' : 'header_bg_dark'}`}></div>

@@ -1,17 +1,24 @@
 import { Forecast } from "../../modules/types.ts";
 import { FormEvent, useEffect, useState } from "react";
 import { Forecasts_Mock } from "../../modules/mock.ts";
+import { setFilterName } from "../../store/slices/filterSlice";
+import { setHeaderMode } from "../../store/slices/modeSlice.ts";
+import { RootState } from "../../store/store";
 import ForecastCard from "../../components/ForecastCard/ForecastCard.tsx";
 import "./ForecastsPage.css";
 import { BreadCrumbs } from "../../components/BreadCrumbs/BreadCrumbs.tsx";
 import {ROUTE_LABELS, ROUTES} from "../../Routes.tsx";
 import "../../components/global.css"
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Header from '../../components/Header/Header';
 
-const ForecastsPage: React.FC<{ setMode: React.Dispatch<React.SetStateAction<string>> }> = ({ setMode }) => {
+
+const ForecastsPage = () => {
+    const dispatch = useDispatch();
     const [forecasts, setForecasts] = useState<Forecast[]>([]);
     const [isMock, setIsMock] = useState(false);
-    const [name, setName] = useState('');
+    const name = useSelector((state: RootState) => state.filter.name);
     const [cartCount, setCount] = useState(0);
     const [draftID, setDraftID] = useState(0);
 
@@ -61,10 +68,18 @@ const ForecastsPage: React.FC<{ setMode: React.Dispatch<React.SetStateAction<str
         fetchForecasts();
     }, []);
 
-    setMode('dark')
-    console.log("Written dark")    
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(setFilterName(e.target.value));
+        fetchForecasts();
+        console.log("nameChanged: ", name)
+    };
+
+    setHeaderMode("light");
+    console.log("Written light")
 
     return (
+        <>
+        <Header/>
         <div className="body">
             <BreadCrumbs crumbs={[{ label: ROUTE_LABELS.FORECASTS, path: ROUTES.FORECASTS }]} />
             {cartCount !== 0 ? (
@@ -90,7 +105,7 @@ const ForecastsPage: React.FC<{ setMode: React.Dispatch<React.SetStateAction<str
                             className="value"
                             placeholder="Поиск..."
                             value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={handleNameChange}
                         />
                         <button type="submit" className="search_btn" style={{zIndex:2, cursor: "pointer"}}></button>
                         <img className="search_btn" src="http://127.0.0.1:9000/test/search.svg"/>
@@ -103,6 +118,7 @@ const ForecastsPage: React.FC<{ setMode: React.Dispatch<React.SetStateAction<str
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

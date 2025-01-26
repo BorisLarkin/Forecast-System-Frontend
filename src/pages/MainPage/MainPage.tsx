@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import "./MainPage.css"
 import "../../components/global.css"
 import {Button, Image} from "react-bootstrap";
 import image from "../../clouds.gif"
 import { Link } from "react-router-dom";
 import {ROUTES} from "../../Routes.tsx";
+import { setHeaderMode } from "../../store/slices/modeSlice.ts";
+import Header from '../../components/Header/Header';
 
 
-const MainPage: React.FC<{ setMode: React.Dispatch<React.SetStateAction<string>> }> = ({ setMode }) => {
+const MainPage = () => {
     const[loaded_bg, setLoaded] = useState("http://127.0.0.1:9000/test/clouds.gif");
 
-    setMode('light')
-    console.log("Written light")    
+    setHeaderMode("dark");
+    console.log("Written dark")
 
     return (
         <>
+            <Header/>
             <main className="main-container">
                 <div className="home_body">
                     <span  className="home_title">Прогноз погоды</span>

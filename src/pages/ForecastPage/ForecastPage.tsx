@@ -3,14 +3,15 @@ import { Forecasts_Mock } from '../../modules/mock';
 import { Forecast } from '../../modules/types';
 import { useParams } from 'react-router-dom';
 import { Image } from 'react-bootstrap';
+import { setHeaderMode } from "../../store/slices/modeSlice.ts";
 import { BreadCrumbs } from "../../components/BreadCrumbs/BreadCrumbs";
 import { ROUTES, ROUTE_LABELS } from "../../Routes";
 import "./ForecastPage.css";
 import "../../components/global.css"
 import image from "../../defaultImage.png"
+import Header from '../../components/Header/Header';
 
-
-const ForecastPage: React.FC<{ setMode: React.Dispatch<React.SetStateAction<string>> }> = ({ setMode }) => {
+const ForecastPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [Forecast, setForecast] = useState<Forecast | null>(null);
     const [isMock, setIsMock] = useState(false);
@@ -62,10 +63,12 @@ const ForecastPage: React.FC<{ setMode: React.Dispatch<React.SetStateAction<stri
         return <div>Прогноз не найден</div>;
     }
 
-    setMode('dark')
-    console.log("Written dark")    
+    setHeaderMode("light");
+    console.log("Written light")
 
     return (
+        <>
+        <Header/>
         <div className="body">
             <BreadCrumbs crumbs={[
                 { label: ROUTE_LABELS.FORECASTS, path: ROUTES.FORECASTS },
@@ -82,6 +85,7 @@ const ForecastPage: React.FC<{ setMode: React.Dispatch<React.SetStateAction<stri
                 </div>
             </div>
         </div>
+        </>
     );
 };
 
