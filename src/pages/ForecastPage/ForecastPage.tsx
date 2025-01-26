@@ -10,7 +10,7 @@ import "../../components/global.css"
 import image from "../../defaultImage.png"
 
 
-const ForecastPage: React.FC = () => {
+const ForecastPage: React.FC<{ setMode: React.Dispatch<React.SetStateAction<string>> }> = ({ setMode }) => {
     const { id } = useParams<{ id: string }>();
     const [Forecast, setForecast] = useState<Forecast | null>(null);
     const [isMock, setIsMock] = useState(false);
@@ -61,6 +61,9 @@ const ForecastPage: React.FC = () => {
     if (!Forecast) {
         return <div>Прогноз не найден</div>;
     }
+
+    setMode('dark')
+    console.log("Written dark")    
 
     return (
         <div className="body">

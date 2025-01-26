@@ -8,7 +8,7 @@ import {ROUTE_LABELS, ROUTES} from "../../Routes.tsx";
 import "../../components/global.css"
 import { Link } from "react-router-dom";
 
-const ForecastsPage = () => {
+const ForecastsPage: React.FC<{ setMode: React.Dispatch<React.SetStateAction<string>> }> = ({ setMode }) => {
     const [forecasts, setForecasts] = useState<Forecast[]>([]);
     const [isMock, setIsMock] = useState(false);
     const [name, setName] = useState('');
@@ -60,6 +60,9 @@ const ForecastsPage = () => {
     useEffect(() => {
         fetchForecasts();
     }, []);
+
+    setMode('dark')
+    console.log("Written dark")    
 
     return (
         <div className="body">

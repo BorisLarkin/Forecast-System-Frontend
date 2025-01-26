@@ -12,8 +12,8 @@ function App({setMode} : {setMode : React.Dispatch<React.SetStateAction<string>>
         <BrowserRouter>
             <Routes>
                 <Route path={ROUTES.HOME} index element={<MainPage setMode={setMode}/>} />
-                <Route path={ROUTES.FORECASTS} element={<ForecastsPage/>} />
-                <Route path={`${ROUTES.FORECAST}:id`} element={<ForecastPage/>} />
+                <Route path={ROUTES.FORECASTS} element={<ForecastsPage setMode={setMode}/>} />
+                <Route path={`${ROUTES.FORECAST}:id`} element={<ForecastPage setMode={setMode}/>} />
             </Routes>
         </BrowserRouter>
     );

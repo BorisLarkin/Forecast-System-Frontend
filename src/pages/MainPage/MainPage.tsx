@@ -9,8 +9,10 @@ import {ROUTES} from "../../Routes.tsx";
 
 const MainPage: React.FC<{ setMode: React.Dispatch<React.SetStateAction<string>> }> = ({ setMode }) => {
     const[loaded_bg, setLoaded] = useState("http://127.0.0.1:9000/test/clouds.gif");
+
     setMode('light')
-    console.log("Written light")
+    console.log("Written light")    
+
     return (
         <>
             <main className="main-container">
