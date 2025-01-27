@@ -6,7 +6,7 @@ interface ModeState {
 }
 
 const initialState: ModeState = {
-    header: 'dark',
+    header: 'light',
     mode: 'light',
 };
 

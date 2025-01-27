@@ -7,13 +7,14 @@ import { Link } from "react-router-dom";
 import {ROUTES} from "../../Routes.tsx";
 import { setHeaderMode } from "../../store/slices/modeSlice.ts";
 import Header from '../../components/Header/Header';
-
+import { useDispatch } from 'react-redux';
 
 const MainPage = () => {
+    const dispatch = useDispatch();
     const[loaded_bg, setLoaded] = useState("http://127.0.0.1:9000/test/clouds.gif");
 
-    setHeaderMode("dark");
-    console.log("Written dark")
+    dispatch(setHeaderMode("light"));
+    console.log("Written light")
 
     return (
         <>

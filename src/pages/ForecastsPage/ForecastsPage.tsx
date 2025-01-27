@@ -74,8 +74,8 @@ const ForecastsPage = () => {
         console.log("nameChanged: ", name)
     };
 
-    setHeaderMode("light");
-    console.log("Written light")
+    dispatch(setHeaderMode("dark"));
+    console.log("Written dark")
 
     return (
         <>

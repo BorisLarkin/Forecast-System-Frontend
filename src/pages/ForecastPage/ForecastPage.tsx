@@ -10,8 +10,10 @@ import "./ForecastPage.css";
 import "../../components/global.css"
 import image from "../../defaultImage.png"
 import Header from '../../components/Header/Header';
+import { useDispatch } from 'react-redux';
 
 const ForecastPage: React.FC = () => {
+    const dispatch = useDispatch();
     const { id } = useParams<{ id: string }>();
     const [Forecast, setForecast] = useState<Forecast | null>(null);
     const [isMock, setIsMock] = useState(false);
@@ -63,8 +65,8 @@ const ForecastPage: React.FC = () => {
         return <div>Прогноз не найден</div>;
     }
 
-    setHeaderMode("light");
-    console.log("Written light")
+    dispatch(setHeaderMode("dark"));
+    console.log("Written dark")
 
     return (
         <>
