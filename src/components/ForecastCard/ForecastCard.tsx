@@ -26,7 +26,7 @@ const ChatCard: FC<ForecastCardProps> = ({forecast}) => {
          <Card.Text className="card_desc" style={{marginBottom: 0}}>
            {forecast.desc}
          </Card.Text>
-         <Button className="btn_add shadow" variant="light outline-dark" onClick={handleDetails}>Перейти</Button>
+         <Button className="btn_add shadow" variant="outline-dark" onClick={handleDetails}>Перейти</Button>
        </Card.Body>
      </Card>
     </div>

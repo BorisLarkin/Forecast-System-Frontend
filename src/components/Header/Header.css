@@ -21,7 +21,7 @@
 	width:247px;
 	height:82px;
 	position:relative;
-	left:5rem;
+	left:2%;
 	top:9px;
     z-index: 4;
 }
@@ -45,7 +45,6 @@
 	position:absolute;
 	left:0px;
 	top:0px;
-	background-image:url(http://127.0.0.1:9000/test/logo_light.png);
 	background-repeat:no-repeat;
 	background-size:cover;
     z-index: 4;
@@ -81,18 +80,17 @@
 	position:absolute;
 	left:0px;
 	top:0px;
-	background-image:url(http://127.0.0.1:9000/test/logo_dark.png);
 	background-repeat:no-repeat;
 	background-size:cover;
     z-index: 4;
 }
 
 .navigation{
-	position: absolute;
-	right:30px;
-	margin:0;
-	padding:0;
-	top:27px;
+	position: absolute !important;
+	right:30px !important;
+	margin:0 !important;
+	padding:0 !important;
+	top:27px !important;
 	background-color: transparent !important;
 	font-family: PT Sans Caption;
 	font-size: 20px;

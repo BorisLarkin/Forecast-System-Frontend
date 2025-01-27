@@ -31,12 +31,12 @@
 .card_title { 
 	color:rgba(0, 0, 0, 1);
 	width:auto;
-	height:40px;
+	height:40px !important;
 	font-family:'PT Sans Caption';
 	text-align:left;
-	font-size:32px;
+	font-size:32px !important;
 	letter-spacing:0;
-	font-weight: bold;
+	font-weight: bold !important;
 	cursor: pointer; 
 	z-index:2;
 	margin-bottom:0;
@@ -52,14 +52,14 @@
   	margin-right: 10px;
 }
 .forecast_card{
-	width: 100%;
-	height: 100%;
-	border-radius: 20px;
-	border: none;
+	width: 100% !important;
+	height: 100% !important;
+	border-radius: 20px !important;
+	border: none !important;
 }
 
 .shadow{
-	box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);
+	box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25) !important;
 }
 
 .forecast_bg { 
@@ -88,7 +88,7 @@
 .btn_add { 
 	width:90%;
 	height:40px;
-	border-radius: 2rem;
+	border-radius: 2rem !important;
 	background: none;
 	cursor: pointer;
 	left:20px;
@@ -96,19 +96,15 @@
 	padding:0;
 	border:5px;
 	position:absolute;
-	outline: 5px ridge rgb(100, 100, 100);
-	background-color:rgba(255, 255, 255, 0.45);
 	color:rgba(0, 0, 0, 1);
-	font-family:'PT Sans Caption';
-	text-align:center;
-	font-size:22px;
+	font-family:'PT Sans Caption' !important;
+	text-align:center !important;
 	letter-spacing:0;
 }
 .btn_bg { 
 	background-color:rgba(255, 255, 255, 0.45);
 	width:350px;
 	height:44px;
-	outline: 5px ridge rgb(100, 100, 100);
 	border-radius: 2rem;
 	position:absolute;
 }

@@ -12,7 +12,9 @@ import "../../components/global.css"
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Header from '../../components/Header/Header';
-
+import cart from "../../cart.svg"
+import search from "../../search.svg"
+import { Image } from "react-bootstrap";
 
 const ForecastsPage = () => {
     const dispatch = useDispatch();
@@ -88,12 +90,12 @@ const ForecastsPage = () => {
                         <div className="prediction_size_bg">
                           <span className="prediction_size">{cartCount}</span>
                         </div>
-                        <div className="prediction_img"></div>
+                        <Image className="prediction_img" src={cart || "http://127.0.0.1:9000/test/cart.svg"}/>
                     </div>
                 </Link>
             ) : (
                 <div className="prediction restricted">
-                    <div className="prediction_img"></div>
+                    <Image className="prediction_img" src={cart || "http://127.0.0.1:9000/test/cart.svg"}/>
                 </div>
             )}
             <div className="forecasts-container">
@@ -108,7 +110,7 @@ const ForecastsPage = () => {
                             onChange={handleNameChange}
                         />
                         <button type="submit" className="search_btn" style={{zIndex:2, cursor: "pointer"}}></button>
-                        <img className="search_btn" src="http://127.0.0.1:9000/test/search.svg"/>
+                        <Image className="search_btn" src={search || "http://127.0.0.1:9000/test/search.svg"}/>
                     </form>
                 </div>
                 <div className="content">
