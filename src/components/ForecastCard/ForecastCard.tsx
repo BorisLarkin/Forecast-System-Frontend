@@ -19,15 +19,17 @@ const ChatCard: FC<ForecastCardProps> = ({forecast}) => {
   return (
     <div className="forecast">
       <div className="forecast_fade" style={{backgroundImage: `linear-gradient(0deg, rgba(${forecast.color}) 0%, rgba(255, 255, 255, 0) 100%)`}}></div>
-      <Card className="forecast_card shadow" style={{ backgroundColor: `rgba(${forecast.color})`}}>
+      <Card className="forecast_card shadow_custom" style={{ backgroundColor: `rgba(${forecast.color})`}}>
        <Card.Img className="forecast_img" variant="top" src={forecast.img || image} onClick={handleDetails}/>
-       <Card.Body style={{paddingTop: '0px', paddingBottom: '0px', paddingLeft: '6px', paddingRight: '6px'}}>
+       <div className="inside_card">
+       <Card.Body className="content_block">
          <Card.Title className="card_title" onClick={handleDetails}>{forecast.title}</Card.Title>
          <Card.Text className="card_desc" style={{marginBottom: 0}}>
            {forecast.desc}
          </Card.Text>
-         <Button className="btn_add shadow" variant="outline-dark" onClick={handleDetails}>Перейти</Button>
        </Card.Body>
+       <Button className="btn_add shadow_custom" variant="outline-dark" onClick={handleDetails}>Перейти</Button>
+       </div>
      </Card>
     </div>
   );

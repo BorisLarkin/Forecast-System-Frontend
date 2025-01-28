@@ -1,6 +1,10 @@
 @import url(https://fonts.googleapis.com/css2?family=PT+Sans+Caption);
 @import url(https://fonts.googleapis.com/css2?family=PT+Sans);
 
+:root{
+	--header-height: 90px;
+}
+
 .logo { 
 	width:247px;
 	height:80px;
@@ -45,11 +49,11 @@
     margin: 0;
     padding: 0;
 	width: 100vw;
-	min-height: calc(100vh - 101px);
-	top:101px;
+	min-height: calc(100vh - var(--header-height));
+	top: var(--header-height);
 	left:0px;
 	position:absolute;
-	background-color:rgb(236, 236, 236);
+	background-color:rgb(220, 226, 231);
 }
 .empty { 
 	color:rgb(66, 66, 66);
