@@ -26,15 +26,15 @@ const Header: React.FC = () => {
     return (
         <div className='header'>
             <div className={`${isLight ? 'header_bg_light' : 'header_bg_dark'}`}></div>
-              <a href={`/`}>
+              <Link to={ROUTES.HOME}>
                 <span className={`${isLight ? 'header_logo_lbl_light' : 'header_logo_lbl_dark'}`}>Погода</span>
-              </a>
-              <a href={`/`}>
+              </Link>
+              <Link to={ROUTES.HOME}>
                 {isLight 
                 ? <Image className={'header_img'} src={logo_light || loaded_logo}></Image>
                 : <Image className={'header_img'} src={logo_dark || loaded_logo}></Image>
                 }
-              </a>
+              </Link>
             <Navbar expand="lg" variant={isLight ? "dark" : "light"} className={`navigation ${isLight ? 'light' : 'dark'}`}>
                 <Container>
                   <a href="#"></a>

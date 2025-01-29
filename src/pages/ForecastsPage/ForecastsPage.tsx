@@ -70,8 +70,6 @@ const ForecastsPage = () => {
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setFilterName(e.target.value));
-        fetchForecasts();
-        console.log("nameChanged: ", name)
     };
 
     dispatch(setHeaderMode("dark"));

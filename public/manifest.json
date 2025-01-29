@@ -1,0 +1,28 @@
+  {
+    "name": "Forecast System",
+    "short_name": "Forecasts",
+    "start_url": "/Forecast-System-Frontend/",
+    "display": "standalone",
+    "background_color": "#fdfdfd",
+    "theme_color": "#db4938",
+    "orientation": "portrait-primary",
+    "icons": [
+      {
+        "src": "./icon.svg",
+        "type": "image/png", "sizes": "450x450"
+      }
+    ],
+    "screenshots": [
+      {
+        "src": "./screenshot_pc.png",
+        "sizes": "899x1910",
+        "type": "image/png",
+        "form_factor": "wide"
+      },
+      {
+        "src": "./screenshot_mobile.png",
+        "sizes": "321x572",
+        "type": "image/png"
+      }
+    ]
+  }
