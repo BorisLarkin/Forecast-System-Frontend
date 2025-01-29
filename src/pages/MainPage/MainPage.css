@@ -147,6 +147,7 @@
 @media (max-width: 560px) {
     .btn_resume { 
 		width:auto !important;
+		font-size: 16px !important;
 	}
 	.home_desc{
 		width: auto;

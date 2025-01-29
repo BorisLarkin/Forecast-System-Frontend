@@ -76,14 +76,16 @@ const ForecastPage: React.FC = () => {
                 { label: ROUTE_LABELS.FORECASTS, path: ROUTES.FORECASTS },
                 { label: Forecast.short_title }
             ]} />
+            <div className="body_container">
             <div className="detail_title">{Forecast.title}</div>
-            <div className="details">
-              <Image className="img" src={Forecast.img || image}/>
-                <div className="info">
-                    <span  className="short">{Forecast.short_title}</span>
-                    <span  className="measure_type">{Forecast.meas}</span>
-                    <div  className="extended_desc">{Forecast.ext_desc}</div>
-                    <span  className="desc">“{Forecast.desc}</span>
+                <div className="details">
+                  <Image className="img" src={Forecast.img || image}/>
+                    <div className="info">
+                        <span  className="short">{Forecast.short_title}</span>
+                        <span  className="measure_type">{Forecast.meas}</span>
+                        <div  className="extended_desc">{Forecast.ext_desc}</div>
+                        <span  className="desc">“{Forecast.desc}</span>
+                    </div>
                 </div>
             </div>
         </div>

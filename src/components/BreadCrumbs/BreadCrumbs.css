@@ -8,8 +8,9 @@
     display: flex;
     gap: 10px;
     left: 1%;
-    top: 1%;
+    top: 10px;
     position: absolute;
+    z-index:10;
 }
 
 .breadcrumbs * {
@@ -28,4 +29,12 @@
 
 .breadcrumbs li:last-child {
     color: var(--active_color);
+}
+
+@media (max-width: 460px) {
+    .breadcrumbs{
+        top:7px;
+        left: -5%;
+        font-size: 14px;
+    }
 }

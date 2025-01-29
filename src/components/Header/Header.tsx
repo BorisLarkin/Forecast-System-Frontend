@@ -26,23 +26,22 @@ const Header: React.FC = () => {
     return (
         <div className='header'>
             <div className={`${isLight ? 'header_bg_light' : 'header_bg_dark'}`}></div>
-            <div className={'header_logo'}>
               <a href={`/`}>
                 <span className={`${isLight ? 'header_logo_lbl_light' : 'header_logo_lbl_dark'}`}>Погода</span>
               </a>
               <a href={`/`}>
                 {isLight 
-                ? <Image className={`${isLight ? 'header_img_light' : 'header_img_dark'}`} src={logo_light || loaded_logo}></Image>
-                : <Image className={`${isLight ? 'header_img_light' : 'header_img_dark'}`} src={logo_dark || loaded_logo}></Image>
+                ? <Image className={'header_img'} src={logo_light || loaded_logo}></Image>
+                : <Image className={'header_img'} src={logo_dark || loaded_logo}></Image>
                 }
               </a>
-            </div>                                                                                                                                                                                                                                                                                                          
             <Navbar expand="lg" variant={isLight ? "dark" : "light"} className={`navigation ${isLight ? 'light' : 'dark'}`}>
                 <Container>
+                  <a href="#"></a>
                   <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                  <Navbar.Collapse id="basic-navbar-nav">
+                  <Navbar.Collapse id="basic-navbar-nav" className={`${isLight ? 'nav_collapse_light' : 'nav_collapse_dark'}`}>
                     <Nav className="me-auto">
-                      <Nav.Link href={ROUTES.FORECASTS}>Прогнозы</Nav.Link>
+                      <Nav.Link href={ROUTES.FORECASTS} style={{marginLeft: 2}}>Прогнозы</Nav.Link>
                     </Nav>
                   </Navbar.Collapse>
                 </Container>

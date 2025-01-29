@@ -50,9 +50,7 @@ const ForecastsPage = () => {
             setIsMock(false);
         } catch (error) {
             console.error("Fetch error:", error);
-            if (!isMock) {
-                createMocks();
-            }
+            createMocks();
         }
     };
 

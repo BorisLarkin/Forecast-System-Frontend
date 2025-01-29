@@ -21,33 +21,33 @@
 	width:247px;
 	height:82px;
 	position:relative;
-	left:2%;
+	left:3%;
 	top:9px;
     z-index: 4;
 }
 .header_logo_lbl_light { 
-	color:rgba(255, 255, 255, 1);
-	width:165px;
-	height:44px;
-	position:absolute;
-	left:82px;
-	top: 12px;
-	font-family:PT Sans Caption;
-	text-align:center;
-	font-size:36px;
-	letter-spacing:0;
-    z-index: 4;
-	font-weight: bold;
+	color: rgba(255, 255, 255, 1);
+  width: auto;
+  height: auto;
+  position: absolute;
+  left: 74px;
+  top: 20px;
+  font-family: PT Sans Caption;
+  text-align: center;
+  font-size: 32px;
+  letter-spacing: 0;
+  z-index: 4;
+  font-weight: bold;
 }
-.header_img_light { 
-	width:82px;
-	height:82px;
-	position:absolute;
-	left:0px;
-	top:0px;
-	background-repeat:no-repeat;
-	background-size:cover;
-    z-index: 4;
+.header_img { 
+	width: 60px;
+  height: 60px;
+  position: absolute;
+  left: 11px;
+  top: 13px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: 4;
 }
 
 .header_bg_dark { 
@@ -62,46 +62,47 @@
 
 .header_logo_lbl_dark { 
 	color:rgb(0, 0, 0);
-	width:165px;
-	height:44px;
-	position:absolute;
-	left:82px;
-	top: 12px;
-	font-family:PT Sans Caption;
-	text-align:center;
-	font-size:36px;
-	letter-spacing:0;
-    z-index: 4;
-	font-weight: bold;
-}
-.header_img_dark { 
-	width:82px;
-	height:82px;
-	position:absolute;
-	left:0px;
-	top:0px;
-	background-repeat:no-repeat;
-	background-size:cover;
-    z-index: 4;
+  width: auto;
+  height: auto;
+  position: absolute;
+  left: 74px;
+  top: 20px;
+  font-family: PT Sans Caption;
+  text-align: center;
+  font-size: 32px;
+  letter-spacing: 0;
+  z-index: 4;
+  font-weight: bold;
 }
 
 .navigation{
 	position: absolute !important;
-	right:30px !important;
+	right:15px !important;
 	margin:0 !important;
 	padding:0 !important;
-	top:27px !important;
-	background-color: transparent !important;
+	top:23px !important;
 	font-family: PT Sans Caption;
 	font-size: 20px;
 }
 
 .dark{
-	--bs-navbar-color: rgba(36, 54, 83, 0.96) !important;
+	--bs-navbar-color: rgba(62, 79, 105, 0.96) !important;
 	--bs-navbar-hover-color: rgba(var(--bs-navbar-color), 0.8) !important;
 }
 
 .light {
-	--bs-navbar-color: rgba(255, 255, 255, 0.897) !important;
+	--bs-navbar-color: rgba(255, 255, 255, 0.68) !important;
 	--bs-navbar-hover-color: rgba(var(--bs-navbar-color), 0.8) !important;
+}
+
+.nav_collapse_dark{
+	background: rgb(229, 245, 255);
+	border-radius: 5px;
+	border: 1px solid rgba(0, 0, 0, 0.21) !important;
+}
+
+.nav_collapse_light{
+	background: rgba(60, 90, 136, 0.32);
+	border-radius: 5px;
+	border: 1px solid rgba(255, 255, 255, 0.21) !important;
 }
