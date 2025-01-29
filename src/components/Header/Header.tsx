@@ -41,7 +41,7 @@ const Header: React.FC = () => {
                   <Navbar.Toggle aria-controls="basic-navbar-nav" />
                   <Navbar.Collapse id="basic-navbar-nav" className={`${isLight ? 'nav_collapse_light' : 'nav_collapse_dark'}`}>
                     <Nav className="me-auto">
-                      <Nav.Link href={ROUTES.FORECASTS} style={{marginLeft: 2}}>Прогнозы</Nav.Link>
+                      <Nav.Link style={{marginLeft: 2}} href={"/Forecast-System-Frontend" + ROUTES.FORECASTS}>Прогнозы</Nav.Link>
                     </Nav>
                   </Navbar.Collapse>
                 </Container>

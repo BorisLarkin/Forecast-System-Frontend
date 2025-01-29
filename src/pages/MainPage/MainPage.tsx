@@ -7,6 +7,7 @@ import {ROUTES} from "../../Routes.tsx";
 import { setHeaderMode } from "../../store/slices/modeSlice.ts";
 import Header from '../../components/Header/Header';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const MainPage = () => {
     const dispatch = useDispatch();
@@ -21,7 +22,9 @@ const MainPage = () => {
             <main className="body main-container">
                 <span  className="home_title">Прогноз погоды</span>
                 <span  className="home_desc">Предскажем, когда Вам поехать на шашлыки</span>
-                <Button variant="outline-light" className="btn_resume" href={ROUTES.FORECASTS} style={{zIndex: 5}}>Продолжить</Button>
+                <Link to={ROUTES.FORECASTS} style={{zIndex:3}}>
+                    <Button variant="outline-light" className="btn_resume" style={{zIndex: 5}}>Продолжить</Button>
+                </Link>
                 <div className="home_bg_fade"></div>
             </main>
             <Image className="home_bg_img" src={image || loaded_bg}/>

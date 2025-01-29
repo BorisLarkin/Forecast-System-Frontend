@@ -7,7 +7,7 @@ import { ROUTES } from "./Routes";
 
 function App() {
     return (
-        <BrowserRouter>
+        <BrowserRouter basename='/Forecast-System-Frontend'>
             <Routes>
                 <Route path={ROUTES.HOME} index element={<MainPage/>} />
                 <Route path={ROUTES.FORECASTS} element={<ForecastsPage/>} />

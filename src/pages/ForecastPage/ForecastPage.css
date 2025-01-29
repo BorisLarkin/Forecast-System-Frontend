@@ -42,7 +42,7 @@
 }
 .short { 
 	color:rgba(0, 0, 0, 1);
-	width:auto;
+	width:100%;
 	height:auto;
 	font-family:PT Sans Caption;
 	text-align:left;
@@ -50,7 +50,7 @@
 }
 .measure_type { 
 	color:rgba(0, 0, 0, 1);
-	width:auto;
+	width:100%;
 	height:auto;
 	font-family:PT Sans Caption;
 	text-align:left;
@@ -58,7 +58,7 @@
 }
 .extended_desc { 
 	color:rgba(0, 0, 0, 1);
-	width:auto;
+	width:100%;
 	height:auto;
 	font-family:PT Sans Caption;
 	text-align:left;
@@ -66,7 +66,7 @@
 }
 .desc { 
 	color:rgba(0, 0, 0, 1);
-	width:auto;
+	width:100%;
 	height:auto;
 	font-family:PT Sans;
 	font-style: italic;
