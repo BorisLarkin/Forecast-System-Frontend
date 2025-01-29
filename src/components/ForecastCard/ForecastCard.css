@@ -133,3 +133,11 @@
 		font-size: 14px !important;
 	}
 }
+@media (max-height: 600px) {
+	.forecast_fade{
+		height:220px;
+	}
+	.forecast_img{
+		height: 220px;
+	}
+}
