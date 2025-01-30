@@ -48,6 +48,7 @@ const ForecastsPage = () => {
             setCount(result.draft_count || 0);
             setDraftID(result.draft_id);
             setIsMock(false);
+            console.log("Mock set to",isMock)
         } catch (error) {
             console.error("Fetch error:", error);
             createMocks();
@@ -56,6 +57,7 @@ const ForecastsPage = () => {
 
     const createMocks = () => {
         setIsMock(true);
+        console.log("Mock set to",isMock)
         setForecasts(Forecasts_Mock.filter(forec => forec.title.toLowerCase().includes(name.toLowerCase())));
     };
 
