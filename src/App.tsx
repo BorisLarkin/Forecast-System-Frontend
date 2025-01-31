@@ -5,6 +5,7 @@ import ForecastPage from "./pages/ForecastPage/ForecastPage";
 import { ROUTES } from "./Routes";
 import { useEffect } from 'react';
 import { invoke } from "@tauri-apps/api/core";
+import {dest_root} from "../target-config"
 
 function App() {
     useEffect(()=>{
@@ -20,7 +21,7 @@ function App() {
     }, []);
 
     return (
-        <BrowserRouter basename='/Forecast-System-Frontend'>
+        <BrowserRouter basename={dest_root}>
             <Routes>
                 <Route path={ROUTES.HOME} index element={<MainPage/>} />
                 <Route path={ROUTES.FORECASTS} element={<ForecastsPage/>} />

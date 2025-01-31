@@ -4,11 +4,9 @@
     flex-direction: column; /* Вертикальная ориентация */
     align-items: center; /* Центрируем по горизонтали     justify-content: center; /* Центрируем по вертикали */
 	justify-content: end;
-    height: calc(100vh - var(--header-height)); /* Занимает всю высоту экрана минус высота навигационной панели */
-	width:100vw;
     text-align: center; /* Центрирует текст */
     gap: 20px; /* Расстояние между элементами */
-    margin-top: var(--header-height);
+    margin-top: 14%;
 }
 
 .home { 
@@ -23,9 +21,7 @@
 	position:absolute;
 	top:0px;
 	left:0px;
-	background-repeat:no-repeat;
-	background-size:cover;
-	background-color: rgb(37, 37, 37);
+	object-fit: cover;
 }
 
 .home_bg_fade { 
@@ -34,6 +30,8 @@
 	height:100%;
 	position:absolute;
 	z-index: 2;
+	left: 0px;
+  	top: 90px;
 }
 
 .home_title { 
@@ -94,6 +92,20 @@
 	letter-spacing:0;
 }
 
+.full_container {
+	margin: 0;
+  	padding: 0;
+  	width: 100vw;
+  	min-height: calc(100vh - var(--header-height));
+  	top: 0px;
+  	left: 0px;
+  	position: absolute;
+  	display: flex;
+  	flex-direction: column;
+  	align-items: center;
+  	gap: 0px;
+}
+
 @media (max-height: 460px) {
     .btn_resume { 
 		margin-top: 25vh;
@@ -109,6 +121,9 @@
 		width: auto;
 		height: auto;
 		font-size: 32px;
+	}
+	.main-container {
+		margin-top: 15%;
 	}
 }
 
@@ -128,7 +143,7 @@
 		font-size: 32px;
 	}
 	.main-container{
-		min-height: 260px !important;
+		margin-top: 33%;		
 	}
 }
 

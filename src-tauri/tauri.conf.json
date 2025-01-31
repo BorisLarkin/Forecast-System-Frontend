@@ -5,11 +5,17 @@
   "identifier": "com.tauri.dev",
   "build": {
     "frontendDist": "../src",
-    "devUrl": "https://localhost:3000/Forecast-System-Frontend",
+    "devUrl": "https://localhost:3000",
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build"
   },
+  "plugins": {
+        "http": {
+          "enabled": true
+        }
+    },
   "app": {
+    "withGlobalTauri": true,
     "windows": [
       {
         "title": "forecast-system-frontend",
