@@ -23,9 +23,7 @@
 	position:absolute;
 	top:0px;
 	left:0px;
-	background-repeat:no-repeat;
-	background-size:cover;
-	background-color: rgb(37, 37, 37);
+	object-fit: cover;
 }
 
 .home_bg_fade { 

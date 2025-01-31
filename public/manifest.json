@@ -9,13 +9,13 @@
     "icons": [
       {
         "src": "./icon.svg",
-        "type": "image/png", "sizes": "450x450"
+        "type": "image/png", "sizes": "150x150"
       }
     ],
     "screenshots": [
       {
         "src": "./screenshot_pc.png",
-        "sizes": "899x1910",
+        "sizes": "1910x899",
         "type": "image/png",
         "form_factor": "wide"
       },
