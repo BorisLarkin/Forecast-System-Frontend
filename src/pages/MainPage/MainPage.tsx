@@ -19,15 +19,19 @@ const MainPage = () => {
     return (
         <>
             <Header/>
-            <main className="body main-container">
-                <span  className="home_title">Прогноз погоды</span>
-                <span  className="home_desc">Предскажем, когда Вам поехать на шашлыки</span>
-                <Link to={ROUTES.FORECASTS} style={{zIndex:3}}>
-                    <Button variant="outline-light" className="btn_resume" style={{zIndex: 5}}>Продолжить</Button>
-                </Link>
-                <div className="home_bg_fade"></div>
-            </main>
-            <Image className="home_bg_img" src={image || loaded_bg}/>
+            <div className='full_container'>
+                <div style={{width: "100vw", height: "var(--header-height)"}}></div>
+                <main className="body" style={{position: "initial"}}>
+                    <div className='main-container'>
+                        <span  className="home_title">Прогноз погоды</span>
+                        <span  className="home_desc">Предскажем, когда Вам поехать на шашлыки</span>
+                        <Link to={ROUTES.FORECASTS} style={{zIndex:3}}>
+                            <Button variant="outline-light" className="btn_resume" style={{zIndex: 5}}>Продолжить</Button>
+                        </Link>
+                    </div>
+                </main>
+                <Image className="home_bg_img" src={image || loaded_bg}/>
+            </div>
         </>
     );
 };
