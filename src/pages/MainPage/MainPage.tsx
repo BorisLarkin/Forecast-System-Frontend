@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 
 const MainPage = () => {
     const dispatch = useDispatch();
-    const[loaded_bg, setLoaded] = useState("http://127.0.0.1:9000/test/clouds.gif");
+    const[loaded_bg] = useState("http://127.0.0.1:9000/test/clouds.gif");
 
     dispatch(setHeaderMode("light"));
     console.log("Written light")
