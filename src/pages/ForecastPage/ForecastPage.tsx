@@ -11,6 +11,8 @@ import "../../components/global.css"
 import image from "../../defaultImage.png"
 import Header from '../../components/Header/Header';
 import { useDispatch } from 'react-redux';
+import {target_tauri, dest_img} from "../../../target-config.ts"
+
 
 const ForecastPage: React.FC = () => {
     const dispatch = useDispatch();
@@ -79,7 +81,7 @@ const ForecastPage: React.FC = () => {
             <div className="body_container">
                 <div className="detail_title">{Forecast.title}</div>
                     <div className="details">
-                      <Image className="img" src={Forecast.img || image}/>
+                      <Image className="img" src={(target_tauri? dest_img + "/test" + Forecast.img.split("/test").slice(-1)[0] : Forecast.img) || image}/>
                         <div className="info">
                             <span  className="short">{Forecast.short_title}</span>
                             <span  className="measure_type">{Forecast.meas}</span>
