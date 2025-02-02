@@ -110,6 +110,8 @@ export interface HandlerLoginReq {
 export interface HandlerLoginResp {
   access_token: string;
   expires_in: string;
+  login: string;
+  role: number;
   token_type: string;
 }
 

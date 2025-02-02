@@ -4,6 +4,8 @@ export const ROUTES = {
     FORECAST: "/forecast/",
     PREDICTION: "/prediction/",
     PREDICTIONS: "/predictions",
+    LOGIN: "/login",
+    PROFILE: "/profile"
 }
 export type RouteKeyType = keyof typeof ROUTES;
 export const ROUTE_LABELS: {[key in RouteKeyType]: string} = {
@@ -12,5 +14,6 @@ export const ROUTE_LABELS: {[key in RouteKeyType]: string} = {
     FORECAST: "Прогноз",
     PREDICTION: "Предсказание",
     PREDICTIONS: "Предсказания",
-
+    LOGIN: "Авторизация",
+    PROFILE: "Профиль"
 };

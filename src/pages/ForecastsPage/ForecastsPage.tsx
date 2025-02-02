@@ -18,7 +18,9 @@ import {Spinner} from "react-bootstrap";
 const ForecastsPage = () => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const { predictionID, forecasts, cartCount, searchValue, loading } = useSelector((state: RootState) => state.forecasts); // получение данных из стора
+    const { forecasts, searchValue, loading } = useSelector((state: RootState) => state.forecasts); // получение данных из стора
+    const role = useSelector((state: RootState) => state.user.role);
+    const {prediction_id, count} = useSelector((state: RootState) => state.predictionDraft);
 
     useEffect(() => {
       dispatch(getForecastsList()); // отправляем `thunk`
@@ -34,11 +36,11 @@ const ForecastsPage = () => {
         <Header/>
         <div className="body">
             <BreadCrumbs crumbs={[{ label: ROUTE_LABELS.FORECASTS, path: ROUTES.FORECASTS }]} />
-            {cartCount !== 0 ? (
-                <Link to={`${ROUTES.PREDICTION}${predictionID}`}>
+            {(count != 0 && role!=0 && prediction_id!=null) ? (
+                <Link to={`${ROUTES.PREDICTION}${prediction_id}`}>
                     <div className="prediction granted">
                         <div className="prediction_size_bg">
-                          <span className="prediction_size">{cartCount}</span>
+                          <span className="prediction_size">{count}</span>
                         </div>
                         <Image className="prediction_img" src={cart || "http://127.0.0.1:9000/test/cart.svg"}/>
                     </div>

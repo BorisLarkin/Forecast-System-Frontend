@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '../../api';
 import { DsForecasts } from '../../api/Api';
 import { Forecasts_Mock } from "../../modules/mock"; // мок-данные
+import { setPredictionDraftID, setCount } from './predictionDraftSlice';
 
 interface ForecastsState {
   searchValue: string;
@@ -25,6 +26,13 @@ export const getForecastsList = createAsyncThunk(
     const { forecasts }: any = getState();
     try {
       const response = await api.forecasts.forecastsList({forecast_name: forecasts.searchValue});
+
+      const draft_id = response.data.prediction_id; // ID черновой заявки
+      const count = response.data.prediction_size; // количество услуг в черновой заявке
+
+      dispatch(setPredictionDraftID(draft_id));
+      dispatch(setCount(count));
+
       return response.data;
     } catch (error) {
       return rejectWithValue('Ошибка при загрузке данных');

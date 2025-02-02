@@ -4,7 +4,7 @@ import "./InputField.css";
 import "../../components/global.css"
 import { useDispatch } from "react-redux";
 import search from "../../search.svg"
-import { Image } from "react-bootstrap";
+import { Button, Image } from "react-bootstrap";
 import { getForecastsList, setSearchValue} from '../../store/slices/forecastsSlice.ts';
 
 
@@ -20,18 +20,17 @@ const InputField: React.FC<Props> = ({ value, loading }) => {
     return (  
         <>
                 <div className="search">
-                    <form onSubmit={() => dispatch(getForecastsList())}>
-                        <input
-                            type="text"
-                            name="search"
-                            className="value"
-                            placeholder="Поиск..."
-                            value={value}
-                            onChange={(event => dispatch(setSearchValue(event.target.value)))}
-                        />
-                        <button type="submit" disabled={loading} className="search_btn" style={{zIndex:2, cursor: "pointer"}}></button>
-                        <Image className="search_btn" src={search || "http://127.0.0.1:9000/test/search.svg"}/>
-                    </form>
+                    <input
+                        type="text"
+                        name="search"
+                        className="value"
+                        placeholder="Поиск..."
+                        value={value}
+                        onChange={(event => dispatch(setSearchValue(event.target.value)))}
+                    />
+                    <Button type="submit" disabled={loading} className="search_btn" style={{zIndex:2, cursor: "pointer"}} onClick={() => dispatch(getForecastsList())}>
+                    </Button>
+                    <Image className="search_btn" src={search || "http://127.0.0.1:9000/test/search.svg"}/>
                 </div>
         </>
     );
