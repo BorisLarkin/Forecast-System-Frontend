@@ -30,14 +30,14 @@ const ForecastPage: React.FC = () => {
             }
 
             const ForecastParsed: Forecast = {
-                id:      data.forecast_id,
+                forecast_id:      data.forecast_id,
 		        title:   data.title,
 		        short_title:   data.short_title,
-		        desc: data.descr,
+		        descr: data.descr,
 		        color: data.color,
-		        img: data.image,
+		        image: data.image,
                 ext_desc: data.ext_desc,
-                meas: data.measure_type,
+                measure_type: data.measure_type,
             };
 
             setForecast(ForecastParsed);
@@ -50,7 +50,7 @@ const ForecastPage: React.FC = () => {
     useEffect(() => {
         if (isMock) {
             const idNum = parseInt(id as string, 10);
-            const mockForecast = Forecasts_Mock.find(Forecast => Forecast?.id === idNum) as Forecast;
+            const mockForecast = Forecasts_Mock.find(Forecast => Forecast?.forecast_id === idNum) as Forecast;
             setForecast(mockForecast);
         } else {
             fetchForecast();
@@ -65,8 +65,10 @@ const ForecastPage: React.FC = () => {
         return <div>Прогноз не найден</div>;
     }
 
-    dispatch(setHeaderMode("dark"));
-    console.log("Written dark")
+    useEffect(() => {
+        dispatch(setHeaderMode("dark"));
+        console.log("Written dark")
+      }, []);
 
     return (
         <>
@@ -79,12 +81,12 @@ const ForecastPage: React.FC = () => {
             <div className="body_container">
                 <div className="detail_title">{Forecast.title}</div>
                     <div className="details">
-                      <Image className="img" src={Forecast.img || image}/>
+                      <Image className="img" src={Forecast.image || image}/>
                         <div className="info">
                             <span  className="short">{Forecast.short_title}</span>
-                            <span  className="measure_type">{Forecast.meas}</span>
+                            <span  className="measure_type">{Forecast.measure_type}</span>
                             <div  className="extended_desc">{Forecast.ext_desc}</div>
-                            <span  className="desc">“{Forecast.desc}</span>
+                            <span  className="desc">“{Forecast.descr}</span>
                         </div>
                     </div>
                 </div>

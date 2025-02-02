@@ -1,12 +1,12 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import filterReducer from './slices/filterSlice';
 import modeReducer from './slices/modeSlice';
+import forecastsReducer from './slices/forecastsSlice'
 
 
 const store = configureStore({
     reducer: combineReducers({
-        filter: filterReducer,
         mode: modeReducer,
+        forecasts: forecastsReducer
     }),
 });
 

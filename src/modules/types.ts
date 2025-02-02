@@ -1,10 +1,10 @@
 export interface Forecast {
-    id: number;
-    img: string;
+    forecast_id: number;
+    image?: string;
     title: string;
     short_title: string;
-    desc: string;
+    descr: string;
     ext_desc: string;
-    meas: string;
+    measure_type: string;
     color: string;
 }

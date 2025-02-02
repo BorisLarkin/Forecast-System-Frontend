@@ -10,60 +10,60 @@
  */
 
 export interface DsForecastRequest {
-  color?: string;
-  descr?: string;
-  ext_desc?: string;
+  color: string;
+  descr: string;
+  ext_desc: string;
   image?: string;
-  measure_type?: string;
-  short_title?: string;
-  title?: string;
+  measure_type: string;
+  short_title: string;
+  title: string;
 }
 
 export interface DsForecastResponse {
-  color?: string;
-  descr?: string;
-  extended_desc?: string;
-  id?: number;
-  img_url?: string;
-  measure_type?: string;
-  short?: string;
-  title?: string;
+  color: string;
+  descr: string;
+  ext_desc: string;
+  id: number;
+  image: string;
+  measure_type: string;
+  short_title: string;
+  title: string;
 }
 
 export interface DsForecastResponseWithFlags {
-  color?: string;
-  descr?: string;
-  ext_desc?: string;
-  id?: number;
-  image?: string;
-  input?: string;
-  measure_type?: string;
-  result?: string;
-  short_title?: string;
-  title?: string;
+  color: string;
+  descr: string;
+  ext_desc: string;
+  id: number;
+  image: string;
+  input: string;
+  measure_type: string;
+  result: string;
+  short_title: string;
+  title: string;
 }
 
 export interface DsForecasts {
-  color?: string;
-  descr?: string;
-  ext_desc?: string;
-  forecast_id?: number;
+  color: string;
+  descr: string;
+  ext_desc: string;
+  forecast_id: number;
   image?: string;
-  measure_type?: string;
-  short_title?: string;
-  title?: string;
+  measure_type: string;
+  short_title: string;
+  title: string;
 }
 
 export interface DsGetForecastsResponse {
-  forecasts?: DsForecasts[];
+  forecasts: DsForecasts[];
   forecasts_empty?: boolean;
-  prediction_id?: string;
-  prediction_size?: number;
+  prediction_id: string;
+  prediction_size: number;
 }
 
 export interface DsPredictionWithForecasts {
-  forecasts?: DsForecastResponseWithFlags[];
-  prediction?: DsPredictions;
+  forecasts: DsForecastResponseWithFlags[];
+  prediction: DsPredictions;
 }
 
 export interface DsPredictions {
@@ -78,11 +78,11 @@ export interface DsPredictions {
 
 export interface DsPredsForecs {
   forecast?: DsForecasts;
-  forecast_id?: number;
+  forecast_id: number;
   input?: string;
   prediction?: DsPredictions;
-  prediction_id?: number;
-  preds_forecs_id?: number;
+  prediction_id: number;
+  preds_forecs_id: number;
   result?: string;
 }
 
@@ -102,36 +102,36 @@ export interface HandlerEditPredReq {
 }
 
 export interface HandlerLoginReq {
-  guest?: boolean;
-  login?: string;
-  password?: string;
+  guest: boolean;
+  login: string;
+  password: string;
 }
 
 export interface HandlerLoginResp {
-  access_token?: string;
-  expires_in?: string;
-  token_type?: string;
+  access_token: string;
+  expires_in: string;
+  token_type: string;
 }
 
 export interface HandlerRegisterReq {
-  login?: string;
-  password?: string;
+  login: string;
+  password: string;
 }
 
 export interface HandlerRegisterResp {
-  ok?: boolean;
+  ok: boolean;
 }
 
 export interface HandlerUpdateReq {
-  login?: string;
-  password?: string;
-  role?: DsRole;
+  login: string;
+  password: string;
+  role: DsRole;
 }
 
 export interface HandlerUpdateResp {
-  login?: string;
-  role?: DsRole;
-  uid?: string;
+  login: string;
+  role: DsRole;
+  uid: string;
 }
 
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
@@ -399,7 +399,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     forecastsList: (
       query?: {
         /** name filter */
-        searchText?: string;
+        forecast_name?: string;
       },
       params: RequestParams = {},
     ) =>

@@ -1,81 +1,33 @@
-import { Forecast } from "../../modules/types.ts";
-import { FormEvent, useEffect, useState } from "react";
-import { Forecasts_Mock } from "../../modules/mock.ts";
-import { setFilterName } from "../../store/slices/filterSlice";
+import {  useEffect } from "react";
 import { setHeaderMode } from "../../store/slices/modeSlice.ts";
-import { RootState } from "../../store/store";
+import { AppDispatch, RootState } from "../../store/store";
 import ForecastCard from "../../components/ForecastCard/ForecastCard.tsx";
 import "./ForecastsPage.css";
 import { BreadCrumbs } from "../../components/BreadCrumbs/BreadCrumbs.tsx";
 import {ROUTE_LABELS, ROUTES} from "../../Routes.tsx";
 import "../../components/global.css"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Header from '../../components/Header/Header';
 import cart from "../../cart.svg"
-import search from "../../search.svg"
 import { Image } from "react-bootstrap";
+import { getForecastsList } from '../../store/slices/forecastsSlice.ts';
+import InputField from "../../components/InputField/InputField.tsx";
+import {Spinner} from "react-bootstrap";
 
 const ForecastsPage = () => {
-    const dispatch = useDispatch();
-    const [forecasts, setForecasts] = useState<Forecast[]>([]);
-    const [isMock, setIsMock] = useState(false);
-    const name = useSelector((state: RootState) => state.filter.name);
-    const [cartCount, setCount] = useState(0);
-    const [draftID, setDraftID] = useState(0);
+    const dispatch = useDispatch<AppDispatch>();
 
-    const fetchForecasts = async () => {
-        try {
-            const response = await fetch(`/api/forecasts?forecast_name=${name.toLowerCase()}`, { signal: AbortSignal.timeout(5000) });
-
-            if (!response.ok) {
-                throw new Error('Network response failed');
-            }
-            const result = await response.json();
-
-            const forecasts = result.forecasts.map((forecast: any) => ({
-                id:      forecast.forecast_id,
-		        title:   forecast.title,
-		        short_title:   forecast.short_title,
-		        desc: forecast.descr,
-		        color: forecast.color,
-		        img: forecast.image,
-                ext_desc: forecast.ext_desc,
-                meas: forecast.measure_type,
-            }));
-
-            setForecasts(forecasts);
-            setCount(result.draft_count || 0);
-            setDraftID(result.draft_id);
-            setIsMock(false);
-            console.log("Mock set to",isMock)
-        } catch (error) {
-            console.error("Fetch error:", error);
-            createMocks();
-        }
-    };
-
-    const createMocks = () => {
-        setIsMock(true);
-        console.log("Mock set to",isMock)
-        setForecasts(Forecasts_Mock.filter(forec => forec.title.toLowerCase().includes(name.toLowerCase())));
-    };
-
-    const handleSubmit = async (e: FormEvent) => {
-        e.preventDefault();
-        await fetchForecasts();
-    };
+    const { predictionID, forecasts, cartCount, searchValue, loading } = useSelector((state: RootState) => state.forecasts); // получение данных из стора
 
     useEffect(() => {
-        fetchForecasts();
-    }, []);
+      dispatch(getForecastsList()); // отправляем `thunk`
+    }, [dispatch]);
 
-    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(setFilterName(e.target.value));
-    };
-
-    dispatch(setHeaderMode("dark"));
-    console.log("Written dark")
+    useEffect(() => {
+        dispatch(setHeaderMode("dark"));
+        console.log("Written dark")
+      }, []);
 
     return (
         <>
@@ -83,7 +35,7 @@ const ForecastsPage = () => {
         <div className="body">
             <BreadCrumbs crumbs={[{ label: ROUTE_LABELS.FORECASTS, path: ROUTES.FORECASTS }]} />
             {cartCount !== 0 ? (
-                <Link to={`${ROUTES.PREDICTION}${draftID}`}>
+                <Link to={`${ROUTES.PREDICTION}${predictionID}`}>
                     <div className="prediction granted">
                         <div className="prediction_size_bg">
                           <span className="prediction_size">{cartCount}</span>
@@ -97,25 +49,27 @@ const ForecastsPage = () => {
                 </div>
             )}
             <div className="forecasts-container">
-                <div className="search">
-                    <form onSubmit={handleSubmit}>
-                        <input
-                            type="text"
-                            name="search"
-                            className="value"
-                            placeholder="Поиск..."
-                            value={name}
-                            onChange={handleNameChange}
-                        />
-                        <button type="submit" className="search_btn" style={{zIndex:2, cursor: "pointer"}}></button>
-                        <Image className="search_btn" src={search || "http://127.0.0.1:9000/test/search.svg"}/>
-                    </form>
-                </div>
-                <div className="content">
-                    {forecasts.map(forecast => (
-                        <ForecastCard key={forecast.id} forecast={forecast}/>
-                    ))}
-                </div>
+                <InputField
+                    value={searchValue}
+                    loading={loading}
+                />
+                {loading ? (
+                  <>
+                    <Spinner animation="border" />
+                  </>
+                ) : (
+                    <>
+                    {forecasts.length ? (
+                        <div className="content">
+                            {forecasts.map(forecast => (
+                                <ForecastCard key={forecast.forecast_id} forecast={forecast}/>
+                            ))}
+                        </div>
+                    ) : (
+                        <h1>К сожалению, пока ничего не найдено :(</h1>
+                    )}
+                  </>
+                )}
             </div>
         </div>
         </>

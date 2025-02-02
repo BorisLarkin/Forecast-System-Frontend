@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import "./MainPage.css"
 import "../../components/global.css"
 import {Button, Image} from "react-bootstrap";
@@ -13,8 +13,10 @@ const MainPage = () => {
     const dispatch = useDispatch();
     const[loaded_bg] = useState("http://127.0.0.1:9000/test/clouds.gif");
 
-    dispatch(setHeaderMode("light"));
-    console.log("Written light")
+    useEffect(() => {
+        dispatch(setHeaderMode("light"));
+        console.log("Written light")
+      }, []);
 
     return (
         <>
