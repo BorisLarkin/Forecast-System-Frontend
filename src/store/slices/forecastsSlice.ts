@@ -20,12 +20,11 @@ const initialState: ForecastsState = {
 };
 
 export const getForecastsList = createAsyncThunk(
-  'forecasts',
+  'forecasts/getForecastsList',
   async (_, { getState, dispatch, rejectWithValue }) => {
     const { forecasts }: any = getState();
     try {
       const response = await api.forecasts.forecastsList({forecast_name: forecasts.searchValue});
-
       return response.data;
     } catch (error) {
       return rejectWithValue('Ошибка при загрузке данных');

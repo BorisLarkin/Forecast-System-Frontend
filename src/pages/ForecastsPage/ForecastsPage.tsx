@@ -6,7 +6,7 @@ import "./ForecastsPage.css";
 import { BreadCrumbs } from "../../components/BreadCrumbs/BreadCrumbs.tsx";
 import {ROUTE_LABELS, ROUTES} from "../../Routes.tsx";
 import "../../components/global.css"
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Header from '../../components/Header/Header';
 import cart from "../../cart.svg"
