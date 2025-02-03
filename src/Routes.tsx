@@ -3,7 +3,6 @@ export const ROUTES = {
     FORECASTS: "/forecasts",
     FORECAST: "/forecast/",
     PREDICTION: "/prediction/",
-    PREDICTIONS: "/predictions",
     LOGIN: "/login",
     PROFILE: "/profile"
 }
@@ -13,7 +12,6 @@ export const ROUTE_LABELS: {[key in RouteKeyType]: string} = {
     FORECASTS: "Прогнозы",
     FORECAST: "Прогноз",
     PREDICTION: "Предсказание",
-    PREDICTIONS: "Предсказания",
     LOGIN: "Авторизация",
     PROFILE: "Профиль"
 };

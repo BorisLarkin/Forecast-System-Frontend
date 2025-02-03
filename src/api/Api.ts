@@ -23,7 +23,7 @@ export interface DsForecastResponse {
   color: string;
   descr: string;
   ext_desc: string;
-  id: number;
+  forecast_id: number;
   image: string;
   measure_type: string;
   short_title: string;
@@ -34,7 +34,7 @@ export interface DsForecastResponseWithFlags {
   color: string;
   descr: string;
   ext_desc: string;
-  id: number;
+  forecast_id: number;
   image: string;
   input: string;
   measure_type: string;
@@ -333,6 +333,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
+     * @description If there`s no draft found, a new draft is to be created.
+     *
+     * @tags Preds_Forecs
+     * @name ToPredCreate
+     * @summary Add forecast to current user`s draft prediction
+     * @request POST:/forecast/to_pred/{forecast_id}
+     */
+    toPredCreate: (forecastId: number, params: RequestParams = {}) =>
+      this.request<DsPredictionWithForecasts, void>({
+        path: `/forecast/to_pred/${forecastId}`,
+        method: "POST",
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description very very friendly response
      *
      * @tags Forecasts
@@ -369,23 +385,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: data,
         type: ContentType.FormData,
-        ...params,
-      }),
-  };
-  forecastToPred = {
-    /**
-     * @description If there`s no draft found, a new draft is to be created.
-     *
-     * @tags Preds_Forecs
-     * @name ForecastToPredCreate
-     * @summary Add forecast to current user`s draft prediction
-     * @request POST:/forecast_to_pred/{forecast_id}
-     */
-    forecastToPredCreate: (forecastId: number, params: RequestParams = {}) =>
-      this.request<DsPredictionWithForecasts, void>({
-        path: `/forecast_to_pred/${forecastId}`,
-        method: "POST",
-        format: "json",
         ...params,
       }),
   };

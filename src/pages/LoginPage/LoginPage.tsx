@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import { Form, Button, Alert, Container } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
@@ -6,6 +6,8 @@ import { loginUserAsync } from '../../store/slices/userSlice';
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import { ROUTES } from '../../Routes';
+import { setHeaderMode } from "../../store/slices/modeSlice.ts";
+
 
 const LoginPage: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -29,6 +31,11 @@ const LoginPage: React.FC = () => {
         }
     };
 
+    useEffect(() => {
+        dispatch(setHeaderMode("dark"));
+        console.log("Written dark")
+    }, []);
+    
     return (
         <Container style={{ maxWidth: '100%', marginTop: '0' }}> 
             <Header/>

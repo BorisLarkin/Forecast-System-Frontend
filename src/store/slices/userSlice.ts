@@ -2,16 +2,40 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '../../api';
 
 interface UserState {
+  uid?: number | null;
   login: string;
   role: number;
-  error?: string | null; 
+  token: string | null;
+  error?: string | null;
+}
+
+const tokenFromStorage = localStorage.getItem('token');
+
+export const config = {
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  }
 }
 
 const initialState: UserState = {
-    login: '',
-  role: 0, //guest
+  uid: tokenFromStorage ? decodeJwt(tokenFromStorage)?.Uid || null : null,
+  login: '',
+  token: tokenFromStorage,
+  role: tokenFromStorage ? decodeJwt(tokenFromStorage)?.Role || 0 : 0,
   error: null,
 };
+
+function decodeJwt(token: string): { Uid: number, Role: number } | null {
+  try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return {
+          Uid: payload.Uid,
+          Role: payload.Role,
+      };
+  } catch (error) {
+      return null;
+  }
+}
 
 // Асинхронное действие для авторизации
 export const loginUserAsync = createAsyncThunk(
@@ -42,17 +66,25 @@ export const logoutUserAsync = createAsyncThunk(
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+  restoreSession: (state, action) => {
+    state.role = decodeJwt(action.payload.token)?.Role || 0;
+    state.token = action.payload.token;
+    state.login = action.payload.username;
+    state.uid = decodeJwt(action.payload.token)?.Uid || null;
+  }},
   extraReducers: (builder) => {
     builder
       .addCase(loginUserAsync.pending, (state) => {
         state.error = null;
       })
       .addCase(loginUserAsync.fulfilled, (state, action) => {
-        const { login } = action.payload;
+        state.token = action.payload.access_token;
         state.login = action.payload.login;
         state.role = action.payload.role;
+        state.uid = decodeJwt(action.payload.access_token)?.Uid || null;
         state.error = null;
+        localStorage.setItem('token', action.payload.access_token); // Сохраняем токен
       })
       .addCase(loginUserAsync.rejected, (state, action) => {
         state.error = action.payload as string;

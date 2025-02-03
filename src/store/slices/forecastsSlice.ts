@@ -3,6 +3,7 @@ import { api } from '../../api';
 import { DsForecasts } from '../../api/Api';
 import { Forecasts_Mock } from "../../modules/mock"; // мок-данные
 import { setPredictionDraftID, setCount } from './predictionDraftSlice';
+import {config} from './userSlice'
 
 interface ForecastsState {
   searchValue: string;
@@ -25,7 +26,7 @@ export const getForecastsList = createAsyncThunk(
   async (_, { getState, dispatch, rejectWithValue }) => {
     const { forecasts }: any = getState();
     try {
-      const response = await api.forecasts.forecastsList({forecast_name: forecasts.searchValue});
+      const response = await api.forecasts.forecastsList({forecast_name: forecasts.searchValue}, config);
 
       const draft_id = response.data.prediction_id; // ID черновой заявки
       const count = response.data.prediction_size; // количество услуг в черновой заявке
@@ -58,7 +59,6 @@ const forecastsSlice = createSlice({
         state.forecasts = action.payload.forecasts;
         state.cartCount = action.payload.prediction_size
         state.predictionID = action.payload.prediction_id
-        console.log("req fulfilled with", state.searchValue)
       })
       .addCase(getForecastsList.rejected, (state) => {
         state.loading = false;

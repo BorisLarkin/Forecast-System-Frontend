@@ -36,7 +36,7 @@ const ForecastsPage = () => {
         <Header/>
         <div className="body">
             <BreadCrumbs crumbs={[{ label: ROUTE_LABELS.FORECASTS, path: ROUTES.FORECASTS }]} />
-            {(count != 0 && role!=0 && prediction_id!=null) ? (
+            {(count != 0 && role>0 && prediction_id!=null) ? (
                 <Link to={`${ROUTES.PREDICTION}${prediction_id}`}>
                     <div className="prediction granted">
                         <div className="prediction_size_bg">

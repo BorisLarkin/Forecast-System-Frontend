@@ -69,7 +69,7 @@ const ForecastPage: React.FC = () => {
         dispatch(setHeaderMode("dark"));
         console.log("Written dark")
       }, []);
-
+      
     return (
         <>
         <Header/>
