@@ -51,26 +51,49 @@ const Header: React.FC = () => {
               : <Image className={'header_img'} src={logo_dark || loaded_logo}></Image>
               }
             </Link>
-          <Navbar expand="lg" variant={isLight ? "dark" : "light"} className={`navigation ${isLight ? 'light' : 'dark'}`}>
-              <Container>
-                <a href="#"></a>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav" className={`${isLight ? 'nav_collapse_light' : 'nav_collapse_dark'}`}>
-                  <Nav className="me-auto">
-                    {(role != 0 ) && (
-                      <Nav.Link style={{marginLeft: 2}} href={"/Forecast-System-Frontend" + ROUTES.PROFILE}>{login}</Nav.Link>
-                    )}
-                    <Nav.Link style={{marginLeft: 2}} href={"/Forecast-System-Frontend" + ROUTES.FORECASTS}>Прогнозы</Nav.Link>
-                    {(role == 0 ) && (
-                      <Nav.Link style={{marginLeft: 2}} href={"/Forecast-System-Frontend" + ROUTES.LOGIN}>Войти</Nav.Link>
-                    )}
-                    {(role != 0) && (
-                      <Nav.Link style={{marginLeft: 2}} onClick={handleExit}>Выйти</Nav.Link>
-                    )}
-                  </Nav>
-                </Navbar.Collapse>
-              </Container>
-          </Navbar>
+            <nav className='nav'>
+                <div className='nav__wrapper'>
+                    <div className='nav__links'>
+                        {role >0 ? (
+                            <>
+                                <Link to='/chats' className='nav__link'>Чаты</Link>
+                                <Link to='/messages' className='nav__link'>Сообщения</Link>
+                                <Link to='/user/profile' className='nav__link'>{login}</Link>
+                                <button className="nav__link" onClick={handleExit}>
+                                    Выйти
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <Link to='/user/register' className='nav__link'>Регистрация</Link>
+                                <Link to='/user/login' className='nav__link'>Вход</Link>
+                            </>
+                        )}
+                    </div>
+                    <div className='nav__mobile-wrapper'
+                         onClick={(event) => event.currentTarget.classList.toggle('active')}
+                    >
+                        <div className='nav__mobile-target'/>
+                        <div className='nav__mobile-menu'>
+                            {role>0 ? (
+                                <>
+                                    <Link to='/chats' className='nav__link'>Чаты</Link>
+                                    <Link to='/messages' className='nav__link'>Сообщения</Link>
+                                    <Link to='/user/profile' className='nav__link'>{login}</Link>
+                                    <button className="nav__link" onClick={handleExit}>
+                                        Выйти
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <Link to='/user/register' className='nav__link'>Регистрация</Link>
+                                    <Link to='/user/login' className='nav__link'>Вход</Link>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </nav>
       </div>
   );
 };

@@ -3,6 +3,7 @@ import { api } from '../../api';
 import { DsForecasts } from '../../api/Api';
 import { Forecasts_Mock } from "../../modules/mock"; // мок-данные
 import { setPredictionDraftID, setCount } from './predictionDraftSlice';
+import { logoutUserAsync } from './userSlice'
 import {config} from './userSlice'
 
 interface ForecastsState {
@@ -59,6 +60,9 @@ const forecastsSlice = createSlice({
         state.forecasts = action.payload.forecasts;
         state.cartCount = action.payload.prediction_size
         state.predictionID = action.payload.prediction_id
+        if (action.payload.prediction_id =='none'){
+          logoutUserAsync();
+        }
       })
       .addCase(getForecastsList.rejected, (state) => {
         state.loading = false;

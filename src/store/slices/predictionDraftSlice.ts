@@ -1,8 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '../../api';
-import {config} from './userSlice'
+import {config,logoutUserAsync} from './userSlice'
+
+interface Measure {
+  index?: number
+  value?: string | null
+}
 
 interface ForecastWithFlags {
+  measurements?: Measure[];
   color: string;
   descr: string;
   ext_desc: string;
@@ -75,6 +81,12 @@ const predictionDraftSlice = createSlice({
     setCount: (state, action) => {
       state.count = action.payload;
     },
+    setForecsMeasure: (state,action) => {
+      console.log(action.payload.index)
+      const f = state.forecasts.find(t=>t.forecast_id===action.payload.forecast_id);
+      const meas = f!=undefined? f.measurements : undefined
+      meas!=undefined ? meas[action.payload.index] = action.payload.value : null
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -97,10 +109,11 @@ const predictionDraftSlice = createSlice({
         state.count = action.payload.forecasts.length
       })
       .addCase(getPrediction.rejected, (state) => {
+        logoutUserAsync();
         state.error = 'Ошибка при загрузке данных';
       });
   }
 });
 
-export const {setPredictionDraftID, setCount} = predictionDraftSlice.actions;
+export const {setPredictionDraftID, setCount, setForecsMeasure} = predictionDraftSlice.actions;
 export default predictionDraftSlice.reducer;

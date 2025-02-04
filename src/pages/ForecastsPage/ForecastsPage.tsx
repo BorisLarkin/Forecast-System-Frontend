@@ -13,6 +13,7 @@ import cart from "../../cart.svg"
 import { Image } from "react-bootstrap";
 import { getForecastsList } from '../../store/slices/forecastsSlice.ts';
 import InputField from "../../components/InputField/InputField.tsx";
+import { restoreSession } from '../../store/slices/userSlice.ts'
 import {Spinner} from "react-bootstrap";
 
 const ForecastsPage = () => {
@@ -24,6 +25,9 @@ const ForecastsPage = () => {
 
     useEffect(() => {
       dispatch(getForecastsList()); // отправляем `thunk`
+      if (role==0){
+        dispatch(restoreSession());
+      }
     }, [dispatch]);
 
     useEffect(() => {

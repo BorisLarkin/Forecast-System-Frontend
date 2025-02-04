@@ -40,11 +40,11 @@ const PredictionPage: FC = () => {
       dispatch(setHeaderMode("dark"));
       console.log("Written dark")
   }, []);
-      
   
   return (
     <div>
       <Header />
+      <div className='body'>
       <div className="container-2">  
         <div className="fav-content">
           {error && <Alert variant="danger" style={{ width: '15vw'}}>{error}</Alert>}
@@ -78,6 +78,7 @@ const PredictionPage: FC = () => {
             )}
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ import { addForecastToPrediction, } from '../../store/slices/predictionDraftSlic
 import { getForecastsList } from '../../store/slices/forecastsSlice.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store.ts';
+import MeasurementList from '../MeasureInput/MeasureInput'
 
 type ForecastCardProps = {
     forecast: Forecast;
@@ -91,6 +92,7 @@ const ForecastCard: FC<ForecastCardProps> = ({forecast}) => {
                     </div>
                 </Col>
             </Row>
+            <MeasurementList forecast={forecast} measure_amount={4}/>
         </div>
     );
   }

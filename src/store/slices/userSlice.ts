@@ -3,13 +3,14 @@ import { api } from '../../api';
 
 interface UserState {
   uid?: number | null;
-  login: string;
+  login?: string | null;
   role: number;
   token: string | null;
   error?: string | null;
 }
 
 const tokenFromStorage = localStorage.getItem('token');
+const loginFromStorage = localStorage.getItem('login');
 
 export const config = {
   headers: {
@@ -19,7 +20,7 @@ export const config = {
 
 const initialState: UserState = {
   uid: tokenFromStorage ? decodeJwt(tokenFromStorage)?.Uid || null : null,
-  login: '',
+  login: loginFromStorage? loginFromStorage : null,
   token: tokenFromStorage,
   role: tokenFromStorage ? decodeJwt(tokenFromStorage)?.Role || 0 : 0,
   error: null,
@@ -55,7 +56,7 @@ export const logoutUserAsync = createAsyncThunk(
   'user/logoutUserAsync',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.user.logoutCreate();
+      const response = await api.user.logoutCreate(config);
       return response.data; 
     } catch (error) {
       return rejectWithValue('Ошибка при выходе из системы'); 
@@ -67,11 +68,11 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-  restoreSession: (state, action) => {
-    state.role = decodeJwt(action.payload.token)?.Role || 0;
-    state.token = action.payload.token;
-    state.login = action.payload.username;
-    state.uid = decodeJwt(action.payload.token)?.Uid || null;
+  restoreSession: (state) => {
+    state.token = tokenFromStorage;
+    state.role = tokenFromStorage ? decodeJwt(tokenFromStorage)?.Role || 0 : 0;
+    state.login = loginFromStorage;
+    state.uid = tokenFromStorage ? decodeJwt(tokenFromStorage)?.Uid || 0 : 0;
   }},
   extraReducers: (builder) => {
     builder
@@ -85,6 +86,7 @@ const userSlice = createSlice({
         state.uid = decodeJwt(action.payload.access_token)?.Uid || null;
         state.error = null;
         localStorage.setItem('token', action.payload.access_token); // Сохраняем токен
+        localStorage.setItem('login', action.payload.login); // Сохраняем токен
       })
       .addCase(loginUserAsync.rejected, (state, action) => {
         state.error = action.payload as string;
@@ -95,6 +97,9 @@ const userSlice = createSlice({
         state.login = '';
         state.role = 0;
         state.error = null;
+        localStorage.removeItem('token')
+        localStorage.removeItem('login')
+        console.log('removed token')
       })
       .addCase(logoutUserAsync.rejected, (state, action) => {
         state.login = '';
@@ -105,5 +110,5 @@ const userSlice = createSlice({
   },
 });
 
-export const {} = userSlice.actions;
+export const {restoreSession} = userSlice.actions;
 export default userSlice.reducer;
