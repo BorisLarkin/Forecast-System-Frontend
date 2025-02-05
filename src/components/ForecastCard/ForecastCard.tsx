@@ -55,23 +55,24 @@ const ForecastCard: FC<ForecastCardProps> = ({forecast}) => {
   }
   if (pathname.includes("/prediction")) {
     return (
-        <div className="fav-card">
-            <Row>
-                <Col xs={2} sm={2} md={2}>
-                    <div className="d-flex justify-center">
-                        <img src={forecast.image || image} alt={forecast.short_title} />
+        <div className="fav-card" style={{height: 'auto', marginRight: '10px', marginLeft: '10px'}}>
+            <Row style={{overflow: 'hidden', margin: 0, width: '100%', flexWrap: 'nowrap', height: 'auto', padding: 0, minWidth: '180px'}}>
+                <Col className="sth-sth" xs={2} sm={2} md={2} style={{padding: 0}}>
+                    <div className="d-flex justify-center" style={{height: '100%', margin: 0}}>
+                        <img src={forecast.image || image} alt={forecast.short_title} style={{width: '100%', objectFit: 'cover'}}/>
                     </div>
                 </Col>
-                <Col xs={10} sm={10} md={10}>
-                    <div className="fav-card-body">
-                        <h5>{forecast.short_title}</h5>
+                <Col xs={10} sm={10} md={10} style={{width: '70%', display: 'flex', alignItems: 'center'}}>
+                    <div className="fav-card-body" style={{width: 'auto'}}>
+                        <h5 style={{width: 'auto', wordBreak: 'break-all', wordWrap: 'break-word'}}>{forecast.short_title}</h5>
                         <div className="form-group">
-                            <Row>
-                                <Col xs={3} sm={3} md={3}>
-                                    <label className="form-label">Количество вакансий: </label>
+                            <Row style={{margin: 0, width: '100%', alignItems: 'center'}}>
+                                <Col xs={3} sm={3} md={3} style={{width: 'auto', padding: 0}}>
+                                    <label className="form-label" style={{width: 'auto', wordBreak: 'break-all', margin: 0}}>Количество показаний: </label>
                                 </Col>
-                                <Col xs={9} sm={9} md={9}>
+                                <Col xs={9} sm={9} md={9} style={{width: 'auto', padding: 0, marginLeft: '5px'}}>
                                     <input
+                                        style={{width: '40px'}}
                                         type="number"
                                         className="localcount"
                                         value={0}
@@ -80,13 +81,13 @@ const ForecastCard: FC<ForecastCardProps> = ({forecast}) => {
                                 </Col>
                             </Row>
                         </div>
-                        <Row>
-                            <Col md={3} xs={3}>
+                        <Row style={{width: 'auto', margin: 0, wordBreak: 'break-all' }}>
+                            <Col md={3} xs={3} style={{width: 'auto', padding: 0}}>
                                 <a onClick={() => handleDetails()} className="fav-btn-open">
                                     Подробнее
                                 </a>
                             </Col>
-                            <Col md={3} xs={3}>
+                            <Col md={3} xs={3} style={{width: 'auto'}}>
                             </Col>
                         </Row>
                     </div>

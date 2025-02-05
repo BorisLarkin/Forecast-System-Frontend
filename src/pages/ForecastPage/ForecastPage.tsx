@@ -86,7 +86,7 @@ const ForecastPage: React.FC = () => {
                             <span  className="short">{Forecast.short_title}</span>
                             <span  className="measure_type">{Forecast.measure_type}</span>
                             <div  className="extended_desc">{Forecast.ext_desc}</div>
-                            <span  className="desc">“{Forecast.descr}</span>
+                            <span  className="desc">“{Forecast.descr}“</span>
                         </div>
                     </div>
                 </div>

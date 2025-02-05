@@ -1,8 +1,8 @@
 //import "./VacancyApplicationPage.css"
 import { FC } from 'react';
 import { Col, Row, Image, Alert } from "react-bootstrap";
-import FavImage from "../../defaultImage.png"
-
+import "./PredictionPage.css"
+import "../../components/global.css"
 import { ROUTES, ROUTE_LABELS } from '../../Routes';
 import  ForecastCard  from '../../components/ForecastCard/ForecastCard';
 import Header from "../../components/Header/Header";
@@ -43,33 +43,26 @@ const PredictionPage: FC = () => {
   
   return (
     <div>
-      <Header />
-      <div className='body'>
-      <div className="container-2">  
-        <div className="fav-content">
+      <div className='body' style={{width: 'auto'}}>
+      <Header up={true}/>
+      <div className="container-2" style={{ width: '100%' }}>  
+        <div className="fav-content all-contain" style={{ width: '100%' }}>
           {error && <Alert variant="danger" style={{ width: '15vw'}}>{error}</Alert>}
-          <Row>
-              <Col md={8} xs={8}>
-                <h1>Предсказание</h1>
-              </Col>
-              <Col md={4} xs={4}>
-                <Image src={FavImage}></Image>
-              </Col>
-          </Row>
+          <Col md={8} xs={8} style={{margin: '5px', marginTop: '20px', width: 'auto'}}>
+            <h1>Предсказание</h1>
+          </Col>
           <div>
-            <h4>Номер заявки: {prediction_id}</h4>
-            <h4>Окно расчета: {predictionData.prediction_window}</h4>
-            <h4>Кол-во расчетов: {predictionData.predictions_amount}</h4>
+            <h4 style={{width: 'auto'}}>Номер заявки: {prediction_id}</h4>
+            <h4 style={{width: 'auto'}}>Окно расчета: {predictionData.prediction_window}</h4>
+            <h4 style={{width: 'auto'}}>Кол-во расчетов: {predictionData.predictions_amount}</h4>
           </div>
           <h1>Выбранные прогнозы для предсказания</h1>
-          <div className="cards-wrapper-2 d-flex flex-column">
+          <div className="cards-wrapper-2 d-flex flex-column" style={{minWidth: '100%', width:'auto', gap: '20px'}}>
             {forecasts.length ? (
               forecasts.map((item) => (
-                <Col key={item.forecast_id}>
-                  <ForecastCard
-                    forecast={item}
-                  />
-                </Col>
+                <ForecastCard
+                  forecast={item}
+                />
               ))
             ) : (
               <section className="cities-not-found">

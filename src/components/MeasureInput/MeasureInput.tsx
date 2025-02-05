@@ -4,6 +4,7 @@ import "../../components/global.css"
 import { useSelector, useDispatch } from "react-redux";
 import { Forecast } from '../../modules/types.ts';
 import { setForecsMeasure } from '../../store/slices/predictionDraftSlice.ts'
+import "./MeasureInput.css"
 
 interface ListProps {
     measure_amount: number
@@ -40,16 +41,16 @@ const MeasurementList: React.FC<ListProps> = ({ measure_amount, forecast }) => {
                   key={item}
                   type="text"
                   name="input"
-                  className="input_value"
-                  placeholder="Поиск..."
+                  className="input_cell"
+                  placeholder=""
                   value={""}
                   onChange={(event =>handleChange("", item, forecast.forecast_id))}
               />
           );
         return (
-            <ul key={forecast.forecast_id}>
+            <div key={forecast.forecast_id} className={'InputsContainerLine'}>
               {listItems}
-            </ul>
+            </div>
           );
     }
     else{
@@ -59,14 +60,14 @@ const MeasurementList: React.FC<ListProps> = ({ measure_amount, forecast }) => {
                   key={item.index}
                   type="text"
                   name="input"
-                  className="input_value"
-                  placeholder="Поиск..."
+                  className="input_cell"
+                  placeholder=""
                   value={item.value ? item.value : ""}
                   onChange={(event =>handleChange(item.value? event.target.value : "", item.index? item.index : 0, forecast.forecast_id))}
               />
           );
           return (
-            <div className={'sth'} key={forecast.forecast_id}>
+            <div className={'InputsContainerLine'} key={forecast.forecast_id}>
               {listItems}
             </div>
           );

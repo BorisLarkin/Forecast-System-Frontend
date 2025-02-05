@@ -44,13 +44,13 @@ const LoginPage: React.FC = () => {
                 {error && <Alert variant="danger">{error}</Alert>}
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="username" style={{ marginBottom: '15px' }}>
-                        <Form.Label>Имя пользователя</Form.Label>
+                        <Form.Label>Логин пользователя</Form.Label>
                         <Form.Control
                             type="text"
                             name="login"
                             value={formData.login}
                             onChange={handleChange}
-                            placeholder="Введите имя пользователя"
+                            placeholder="Введите логин пользователя"
                         />
                     </Form.Group>
                     <Form.Group controlId="password" style={{ marginBottom: '20px' }}>

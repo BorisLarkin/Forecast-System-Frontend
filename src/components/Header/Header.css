@@ -209,6 +209,11 @@
     display: flex;
 }
 
+.header_up{
+    width: 100% !important;
+    top: calc(-1* var(--header-height)) !important;
+ }
+
 @media (max-width: 545px) {
     .nav__wrapper {
         flex-direction: row-reverse;

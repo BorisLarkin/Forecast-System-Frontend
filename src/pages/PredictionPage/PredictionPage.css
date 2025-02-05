@@ -1,0 +1,9 @@
+.all-contain{
+    display: flex;
+    flex-flow: column;
+    overflow: hidden;
+    width: auto;
+    min-width: 100%;
+    justify-content: center;
+    align-items: center;
+}

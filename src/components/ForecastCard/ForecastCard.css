@@ -120,6 +120,21 @@
 	flex-direction: column;
 }
 
+.fav-card {
+	display: flex;
+	flex-flow: row;
+	flex-wrap: nowrap;
+	height: 100px;
+	width: auto;
+	min-width: 100%;
+}
+
+.sth-sth {
+	max-height: 13vh;
+    width: 30% !important;
+    padding: 0;
+}
+
 @media (max-width: 460px) {
     .card_title{
 		font-size: 24px;
