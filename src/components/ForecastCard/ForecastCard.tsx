@@ -7,17 +7,24 @@ import { ROUTES } from "../../Routes.tsx";
 import { useNavigate, useLocation } from "react-router-dom";
 import image from "../../defaultImage.png"
 import {Row, Col} from 'react-bootstrap'
-import { addForecastToPrediction, } from '../../store/slices/predictionDraftSlice.ts';
+import { addForecastToPrediction, setForecsMeasureLen, } from '../../store/slices/predictionDraftSlice.ts';
 import { getForecastsList } from '../../store/slices/forecastsSlice.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store.ts';
 import MeasurementList from '../MeasureInput/MeasureInput'
 
 type ForecastCardProps = {
-    forecast: Forecast;
+    forecast: Forecast,
+    pred_status?: string,
 }
 
-const ForecastCard: FC<ForecastCardProps> = ({forecast}) => {
+
+interface reducerResponse {
+    length: number,
+    forecast_id: number,
+}
+
+const ForecastCard: FC<ForecastCardProps> = ({forecast, pred_status}) => {
     const navigate = useNavigate()
     const handleDetails = () => {
       navigate(ROUTES.FORECAST+String(forecast.forecast_id))  
@@ -28,6 +35,26 @@ const ForecastCard: FC<ForecastCardProps> = ({forecast}) => {
             await dispatch(getForecastsList()); // Для обновления отображения состояния иконки "корзины" 
         }
     }
+
+    const handleChange = (forecast_id: number, length: string)  => {
+            const req: reducerResponse = {
+                forecast_id: forecast_id,
+                length: Number(length),
+            }
+            dispatch(setForecsMeasureLen(req))
+    }
+
+    const handleDeleteCity = async () => {
+        if (city_id && app_id) {
+            await dispatch(deleteCityFromVacancyApplication({ appId: app_id, cityId: city_id }));
+            dispatch(setCities(cities.filter(city => city.city_id?.city_id !== city_id)));
+        }
+    }
+    
+    const fs = useSelector((state: RootState) => state.predictionDraft.forecasts); 
+    const f = fs.find(t=>t.forecast_id===forecast.forecast_id);
+    const meas = f?.measurements
+
   const { pathname } = useLocation();
   const dispatch = useDispatch<AppDispatch>();
   const role = useSelector((state: RootState) => state.user.role);
@@ -55,8 +82,8 @@ const ForecastCard: FC<ForecastCardProps> = ({forecast}) => {
   }
   if (pathname.includes("/prediction")) {
     return (
-        <div className="fav-card" style={{height: 'auto', marginRight: '10px', marginLeft: '10px'}}>
-            <Row style={{overflow: 'hidden', margin: 0, width: '100%', flexWrap: 'nowrap', height: 'auto', padding: 0, minWidth: '180px'}}>
+        <div className="fav-card" style={{height: '10%', marginRight: '20px', marginLeft: '20px', gap: '20px'}}>
+            <Row className='actual-card' style={{backgroundColor: `rgba(${forecast.color})`}}>
                 <Col className="sth-sth" xs={2} sm={2} md={2} style={{padding: 0}}>
                     <div className="d-flex justify-center" style={{height: '100%', margin: 0}}>
                         <img src={forecast.image || image} alt={forecast.short_title} style={{width: '100%', objectFit: 'cover'}}/>
@@ -75,8 +102,9 @@ const ForecastCard: FC<ForecastCardProps> = ({forecast}) => {
                                         style={{width: '40px'}}
                                         type="number"
                                         className="localcount"
-                                        value={0}
-                                        disabled
+                                        value={meas?.length}
+                                        onChange={(event =>handleChange(forecast.forecast_id, event.target.value))}
+                                        disabled={pred_status!='draft'}
                                     />
                                 </Col>
                             </Row>
@@ -87,13 +115,18 @@ const ForecastCard: FC<ForecastCardProps> = ({forecast}) => {
                                     Подробнее
                                 </a>
                             </Col>
-                            <Col md={3} xs={3} style={{width: 'auto'}}>
-                            </Col>
+                            {(pred_status=='draft') && (
+                                <Col md={3} xs={3} style={{width: 'auto',  padding: 0}}>
+                                    <a onClick={() => handleDeleteCity()} className="fav-btn-open">
+                                        Удалить
+                                    </a>
+                                </Col>
+                            )}
                         </Row>
                     </div>
                 </Col>
             </Row>
-            <MeasurementList forecast={forecast} measure_amount={4}/>
+            <MeasurementList forecast={forecast} pred_status={pred_status} measure_amount={4}/>
         </div>
     );
   }

@@ -9,6 +9,7 @@ import "./MeasureInput.css"
 interface ListProps {
     measure_amount: number
     forecast: Forecast
+    pred_status?: string
 }
 
 interface reducerResponse {
@@ -17,7 +18,7 @@ interface reducerResponse {
     index: number
 }
 
-const MeasurementList: React.FC<ListProps> = ({ measure_amount, forecast }) => {
+const MeasurementList: React.FC<ListProps> = ({ measure_amount, forecast, pred_status }) => {
     const dispatch = useDispatch<AppDispatch>();
 
     const fs = useSelector((state: RootState) => state.predictionDraft.forecasts); 
@@ -34,6 +35,7 @@ const MeasurementList: React.FC<ListProps> = ({ measure_amount, forecast }) => {
       }
 
     if (meas==undefined){
+      console.log('undefined meas')
         const items = Array.from(Array(measure_amount).keys())
         const listItems = items.map((item) =>
             // Correct! Key should be specified inside the array.
@@ -45,6 +47,7 @@ const MeasurementList: React.FC<ListProps> = ({ measure_amount, forecast }) => {
                   placeholder=""
                   value={""}
                   onChange={(event =>handleChange("", item, forecast.forecast_id))}
+                  disabled={pred_status!='draft'}
               />
           );
         return (
@@ -54,6 +57,7 @@ const MeasurementList: React.FC<ListProps> = ({ measure_amount, forecast }) => {
           );
     }
     else{
+      console.log('defined meas')
         const listItems = meas.map((item) =>
             // Correct! Key should be specified inside the array.
             <input
@@ -62,8 +66,10 @@ const MeasurementList: React.FC<ListProps> = ({ measure_amount, forecast }) => {
                   name="input"
                   className="input_cell"
                   placeholder=""
+                  maxLength={8}
                   value={item.value ? item.value : ""}
-                  onChange={(event =>handleChange(item.value? event.target.value : "", item.index? item.index : 0, forecast.forecast_id))}
+                  onChange={(event =>handleChange(event.target.value, forecast.forecast_id, item.index? item.index : 0))}
+                  disabled={pred_status!='draft'}
               />
           );
           return (

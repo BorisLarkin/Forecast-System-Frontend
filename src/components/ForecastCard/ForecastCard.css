@@ -22,7 +22,7 @@
 	color:rgba(0, 0, 0, 1);
 	width:auto;
 	height:auto;
-	font-family:'PT Sans Caption';
+	font-family:PT Sans Caption;
 	text-align:center;
 	font-size:22px;
 	letter-spacing:0;
@@ -31,7 +31,7 @@
 	color:rgba(0, 0, 0, 1);
 	width:auto;
 	height: auto;
-	font-family:'PT Sans Caption';
+	font-family:PT Sans Caption;
 	text-align:left;
 	font-size:32px !important;
 	letter-spacing:0;
@@ -87,7 +87,7 @@
 	height:40px;
 	border-radius: 2rem !important;
 	background: none;
-	font-family:'PT Sans Caption' !important;
+	font-family:PT Sans Caption !important;
 	text-align:center !important;
 	letter-spacing:0;
 	margin-bottom: 10px;
@@ -106,7 +106,7 @@
 	color:rgba(0, 0, 0, 1);
 	width:350px;
 	height:auto;
-	font-family:'PT Sans Caption';
+	font-family:PT Sans Caption;
 	text-align:center;
 	font-size:22px;
 	letter-spacing:0;
@@ -133,6 +133,19 @@
 	max-height: 13vh;
     width: 30% !important;
     padding: 0;
+	height:fit-content;
+}
+
+.actual-card{
+	overflow: hidden;
+	margin: 0;
+	width: 100%;
+	flex-wrap: nowrap;
+	height: auto;
+	padding: 0;
+	min-width: 180px;
+	max-width: 600px;
+	border-radius: 1rem;
 }
 
 @media (max-width: 460px) {
