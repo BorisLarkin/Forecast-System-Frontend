@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '../../api';
 import {config,logoutUserAsync} from './userSlice'
+import { DsUpdatePredForecInput } from '../../api/Api';
 
 interface Measure {
   index?: number
@@ -71,33 +72,48 @@ export const addForecastToPrediction = createAsyncThunk(
   }
 );
 
-export const deleteVacancyApplication = createAsyncThunk(
-  'vacancyApplication/deleteVacancyApplication',
-  async (appId: string) => {
-    const response = await api.vacancyApplications.vacancyApplicationsDeleteVacancyApplicationDelete(appId);
+export const deletePrediction= createAsyncThunk(
+  'prediction/deletePrediction',
+  async (prId: string) => {
+    const response = await api.prediction.deleteDelete(Number(prId), config);
     return response.data;
   }
 );
 
-export const updateVacancyApplication = createAsyncThunk(
-  'vacancyApplication/updateVacancyApplication',
-  async ({ appId, vacancyData }: { appId: string; vacancyData: VacancyData }) => {
-    const vacancyDataToSend = {
-      vacancy_name: vacancyData.vacancy_name ?? '', 
-      vacancy_responsibilities: vacancyData.vacancy_responsibilities ?? '',
-      vacancy_requirements: vacancyData.vacancy_requirements ?? ''
+export const updatePrediction = createAsyncThunk(
+  'prediction/updatePrediction',
+  async ({ prId, predictionData }: { prId: string; predictionData: PredictionData }) => {
+    const predictionDataToSend = {
+      prediction_amount: Number(predictionData.predictions_amount) ?? 0, 
+      prediction_window: Number(predictionData.prediction_window) ?? 0,
     };
-    const response = await api.vacancyApplications.vacancyApplicationsUpdateVacancyUpdate(appId, vacancyDataToSend);
+    const response = await api.prediction.editUpdate(Number(prId), predictionDataToSend, config);
     return response.data;
   }
 );
 
-export const deleteCityFromVacancyApplication = createAsyncThunk(
-  'cities/deleteCityFromVacancyApplication',
-  async ({ appId, cityId }: { appId: number; cityId: number }) => {
-    await api.citiesVacancyApplications.citiesVacancyApplicationsDeleteCityFromVacancyApplicationDelete(
-      appId.toString(),
-      cityId.toString()
+export const deleteForecastFromPrediction = createAsyncThunk(
+  'prediction/deleteForecastFromPrediction',
+  async ({ prediction_id, forecast_id }: { prediction_id: number; forecast_id: number }) => {
+    await api.prFc.removeDelete(
+      forecast_id,
+      prediction_id,
+      config
+    ); 
+  }
+);
+
+export const editForecastInPrediction = createAsyncThunk(
+  'prediction/editForecastInPrediction',
+  async ({ prediction_id, forecast_id, inp }: { prediction_id: number; forecast_id: number, inp: string }) => {
+    let i : DsUpdatePredForecInput = {
+      input: inp
+    }
+    await api.prFc.editUpdate(
+      forecast_id,
+      prediction_id,
+      i,
+      config
     ); 
   }
 );
@@ -122,13 +138,9 @@ const predictionDraftSlice = createSlice({
       state.predictionData.predictions_amount = action.payload
     },
     setForecasts: (state, action) => {
-      state.forecasts = {
-          ...state.forecasts,
-          ...action.payload,
-      };
+      state.forecasts = action.payload;
     },
     setForecsMeasure: (state,action) => {
-      console.log(action.payload.index)
       const m: Measure = {
         index: action.payload.index,
         value: action.payload.value
@@ -137,14 +149,19 @@ const predictionDraftSlice = createSlice({
       const meas = f!=undefined? f.measurements : undefined
       meas!=undefined && m.index!= undefined ? meas[action.payload.index] = m : null
     },
+    setForecsInput: (state,action) => {
+      const f = state.forecasts.find(t=>t.forecast_id===action.payload.forecast_id);
+      if (f!=undefined){
+        f.input = action.payload.input
+      }
+    },
     setForecsMeasureLen: (state, action) =>{
       const f = state.forecasts.find(t=>t.forecast_id===action.payload.forecast_id);
       const meas = f!=undefined? f.measurements : undefined
       let prev_len = meas!=undefined? meas.length : 0
       prev_len = prev_len==0? 1 : prev_len //otherwise the cycle would start with i:=-1
-      meas!=undefined? meas.length = Math.min(action.payload.length, 99) : null
+      meas!=undefined? meas.length = Math.max(0,Math.min(action.payload.length, 99)) : null
       for (let step = prev_len-1; step < action.payload.length; step++) {
-        console.log("Walking east one step");
         let ms: Measure = {
           index: step,
           value: ""
@@ -168,6 +185,7 @@ const predictionDraftSlice = createSlice({
                 Date_formed: prediction.date_formed,
             };
             state.forecasts = forecasts || [];
+            state.error = null
             state.forecasts.map((item) => {
               if (item.measurements == undefined){
                   const n: Measure={
@@ -189,8 +207,9 @@ const predictionDraftSlice = createSlice({
                 else{
                   const vals = item.input.split(',')
                   item.measurements.length = vals.length
-                  const keys = Array.from(Array(5).keys())
+                  const keys = Array.from(Array(vals.length).keys())
                   keys.map((key)=>{
+                    console.log(item.input, vals.length, key)
                     const it: Measure={
                       index: key,
                       value: vals[key]
@@ -204,32 +223,33 @@ const predictionDraftSlice = createSlice({
       })
       .addCase(addForecastToPrediction.fulfilled, (state, action) => {
         state.count = action.payload.forecasts.length
+        state.error = null
       })
       .addCase(getPrediction.rejected, (state) => {
         logoutUserAsync();
         state.error = 'Ошибка при загрузке данных';
       })
-      .addCase(deleteVacancyApplication.fulfilled, (state) => {
-        state.app_id = NaN;
+      .addCase(deletePrediction.fulfilled, (state) => {
+        state.prediction_id = NaN;
         state.count = NaN;
-        state.cities = [];
-        state.vacancyData = {
-          vacancy_name: '',
-          vacancy_responsibilities: '',
-          vacancy_requirements: ''
+        state.forecasts = [];
+        state.predictionData = {
+          prediction_window: 0,
+          predictions_amount: 0,
         };
+        state.error = null
       })
-      .addCase(deleteVacancyApplication.rejected, (state) => {
+      .addCase(deletePrediction.rejected, (state) => {
         state.error = 'Ошибка при удалении вакансии';
       })
-      .addCase(updateVacancyApplication.fulfilled, (state, action) => {
-        state.vacancyData = action.payload;
+      .addCase(updatePrediction.fulfilled, (state, action) => {
+        state.error = null
       })
-      .addCase(updateVacancyApplication.rejected, (state) => {
+      .addCase(updatePrediction.rejected, (state) => {
         state.error = 'Ошибка при обновлении данных';
       })
   }
 });
 
-export const {setPredictionDraftID, setCount, setForecsMeasure ,setForecsMeasureLen, setAmount, setWindow, setError} = predictionDraftSlice.actions;
+export const {setPredictionDraftID, setCount, setForecsMeasure ,setForecsMeasureLen, setAmount, setWindow, setError, setForecsInput, setForecasts} = predictionDraftSlice.actions;
 export default predictionDraftSlice.reducer;

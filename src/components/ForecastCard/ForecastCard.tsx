@@ -7,7 +7,7 @@ import { ROUTES } from "../../Routes.tsx";
 import { useNavigate, useLocation } from "react-router-dom";
 import image from "../../defaultImage.png"
 import {Row, Col} from 'react-bootstrap'
-import { addForecastToPrediction, setForecsMeasureLen, } from '../../store/slices/predictionDraftSlice.ts';
+import { addForecastToPrediction, deleteForecastFromPrediction, setForecasts, setForecsMeasureLen} from '../../store/slices/predictionDraftSlice.ts';
 import { getForecastsList } from '../../store/slices/forecastsSlice.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store.ts';
@@ -26,6 +26,11 @@ interface reducerResponse {
 
 const ForecastCard: FC<ForecastCardProps> = ({forecast, pred_status}) => {
     const navigate = useNavigate()
+    const fs = useSelector((state: RootState) => state.predictionDraft.forecasts); 
+    const f = fs.find(t=>t.forecast_id===forecast.forecast_id);
+    const meas = f?.measurements
+    const prId = useSelector((state: RootState) => state.predictionDraft.prediction_id); 
+
     const handleDetails = () => {
       navigate(ROUTES.FORECAST+String(forecast.forecast_id))  
     }
@@ -44,17 +49,14 @@ const ForecastCard: FC<ForecastCardProps> = ({forecast, pred_status}) => {
             dispatch(setForecsMeasureLen(req))
     }
 
-    const handleDeleteCity = async () => {
-        if (city_id && app_id) {
-            await dispatch(deleteCityFromVacancyApplication({ appId: app_id, cityId: city_id }));
-            dispatch(setCities(cities.filter(city => city.city_id?.city_id !== city_id)));
+    const handleDeleteForecast = async () => {
+        if (forecast && prId) {
+            await dispatch(deleteForecastFromPrediction({ prediction_id: prId, forecast_id: forecast.forecast_id }));
+            dispatch(setForecasts(fs.filter(fc => fc.forecast_id !== forecast.forecast_id)));
+            console.log('filtered', forecast.forecast_id)
         }
     }
     
-    const fs = useSelector((state: RootState) => state.predictionDraft.forecasts); 
-    const f = fs.find(t=>t.forecast_id===forecast.forecast_id);
-    const meas = f?.measurements
-
   const { pathname } = useLocation();
   const dispatch = useDispatch<AppDispatch>();
   const role = useSelector((state: RootState) => state.user.role);
@@ -109,7 +111,7 @@ const ForecastCard: FC<ForecastCardProps> = ({forecast, pred_status}) => {
                                 </Col>
                             </Row>
                         </div>
-                        <Row style={{width: 'auto', margin: 0, wordBreak: 'break-all' }}>
+                        <Row style={{width: 'auto', margin: 0, wordBreak: 'break-all', gap: '10px'}}>
                             <Col md={3} xs={3} style={{width: 'auto', padding: 0}}>
                                 <a onClick={() => handleDetails()} className="fav-btn-open">
                                     Подробнее
@@ -117,7 +119,7 @@ const ForecastCard: FC<ForecastCardProps> = ({forecast, pred_status}) => {
                             </Col>
                             {(pred_status=='draft') && (
                                 <Col md={3} xs={3} style={{width: 'auto',  padding: 0}}>
-                                    <a onClick={() => handleDeleteCity()} className="fav-btn-open">
+                                    <a onClick={() => handleDeleteForecast()} className="fav-btn-open">
                                         Удалить
                                     </a>
                                 </Col>

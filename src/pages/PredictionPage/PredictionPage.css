@@ -12,10 +12,13 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 5px;
     justify-content: space-evenly;
     width: 100%;
     margin-top: 3%;
+    align-items: center;
+    padding-left: 1%;
+    padding-right:1%;
 }
 
 .big_input{
@@ -32,4 +35,16 @@
     width:auto;
     justify-content: center;
     align-items: center;
+}
+
+.clear-button{
+    position: absolute;
+    right: 1%;
+    top: 10px;
+}
+
+@media (max-width: 1230px) {
+    .sub-header-container { 
+		gap:10px;
+	}
 }

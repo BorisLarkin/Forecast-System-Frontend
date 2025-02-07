@@ -5,12 +5,13 @@ import "./PredictionPage.css"
 import "../../components/global.css"
 import { ROUTES, ROUTE_LABELS } from '../../Routes';
 import  ForecastCard  from '../../components/ForecastCard/ForecastCard';
+import { BreadCrumbs } from '../../components/BreadCrumbs/BreadCrumbs.tsx';
 import Header from "../../components/Header/Header";
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store.ts';
-import { getPrediction, setAmount, setWindow, setError, deleteVacancyApplication, updateVacancyApplication} from '../../store/slices/predictionDraftSlice.ts';
+import { getPrediction, setAmount, setWindow, setError, setForecsInput, updatePrediction, deletePrediction, editForecastInPrediction} from '../../store/slices/predictionDraftSlice.ts';
 import { setHeaderMode } from "../../store/slices/modeSlice.ts";
 
 const PredictionPage: FC = () => {
@@ -35,7 +36,7 @@ const PredictionPage: FC = () => {
     e.preventDefault();
     if (prediction_id) {
       try {
-        await dispatch(deleteVacancyApplication(prediction_id)).unwrap();
+        await dispatch(deletePrediction(prediction_id)).unwrap();
         navigate(ROUTES.FORECASTS);
       } catch (error) {
         dispatch(setError(error));
@@ -44,14 +45,21 @@ const PredictionPage: FC = () => {
   };
 
   const handleSaveVacancy = () => {
-    if (app_id) {
-      const vacancyDataToSend = {
-        vacancy_name: vacancyData.vacancy_name ?? '',
-        vacancy_responsibilities: vacancyData.vacancy_responsibilities ?? '',
-        vacancy_requirements: vacancyData.vacancy_requirements ?? ''
-      };
+    if (prediction_id) {
       try {
-        dispatch(updateVacancyApplication({ appId: app_id, vacancyData: vacancyDataToSend }));
+        dispatch(updatePrediction({ prId: prediction_id, predictionData: predictionData }));
+        forecasts.map((item) => {
+          let final_string=""
+          item.measurements?.map((meas) => {
+            final_string += meas.value
+            final_string += ','
+          })
+          final_string = final_string.substring(0, final_string.length - 1);
+          if (final_string!=undefined){
+            dispatch(setForecsInput(final_string))
+            dispatch(editForecastInPrediction({prediction_id: Number(prediction_id), forecast_id: Number(item.forecast_id), inp: final_string}))  
+          }
+        })
       } catch (error) {
         dispatch(setError(error));
       }
@@ -67,10 +75,11 @@ const PredictionPage: FC = () => {
     <div>
       <div className='body' style={{width: 'auto', minWidth: '100vw'}}>
       <Header up={true}/>
+      <BreadCrumbs crumbs={[{ label: ROUTE_LABELS.PREDICTION, path: ROUTES.PREDICTION }]} />
       <div className="container-2" style={{ width: '100%' }}>  
         <div className="fav-content all-contain" style={{ width: '100%' }}>
         {(predictionData.Status == "draft") && (
-          <Button className="save-button" onClick={handleDelete}>
+          <Button className="clear-button" variant='danger' onClick={handleDelete}>
             Очистить
           </Button>
         )}
@@ -79,7 +88,7 @@ const PredictionPage: FC = () => {
             <h1>Предсказание</h1>
           </Col>
           <div className='sub-header-container'>
-            <h4 style={{width: 'auto', margin: 0}}>Номер заявки: {prediction_id}</h4>
+            <h4 style={{width: 'auto', margin: 0, height: 'min-content'}}>Номер заявки: {prediction_id}</h4>
             <div className='amount-window-flex'>
               <h4 style={{width: 'auto', margin: 0}}>Окно расчета:</h4>
               <input
@@ -115,6 +124,7 @@ const PredictionPage: FC = () => {
             {forecasts.length ? (
               forecasts.map((item) => (
                 <ForecastCard
+                  key={item.forecast_id}
                   forecast={item}
                   pred_status={predictionData.Status!=null? predictionData.Status : ""}
                 />
