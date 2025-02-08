@@ -39,7 +39,7 @@
 	word-break: break-all;
 	justify-content: start;
 	align-items:start;
-	padding-bottom: 40px;
+	padding-bottom: 10px;
 }
 .short { 
 	color:rgba(0, 0, 0, 1);
@@ -77,9 +77,9 @@
 
 .body_container{
 	gap: 10px;
-	padding-top: 40px;
+	padding-top: 30px;
 	display: flex;
-  	width: 100%;
+  	width: 95%;
   	justify-content: space-evenly;
   	overflow: hidden;
   	flex-flow: row wrap;

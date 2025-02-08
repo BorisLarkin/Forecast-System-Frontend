@@ -6,7 +6,8 @@
 	justify-content: end;
     text-align: center; /* Центрирует текст */
     gap: 20px; /* Расстояние между элементами */
-    margin-top: 14%;
+	height: calc(100vh - var(--header-height));
+	min-height: 205px;
 }
 
 .home { 
@@ -122,9 +123,6 @@
 		height: auto;
 		font-size: 32px;
 	}
-	.main-container {
-		margin-top: 15%;
-	}
 }
 
 @media (max-height: 340px) {
@@ -141,9 +139,6 @@
 		width: auto;
 		height: auto;
 		font-size: 32px;
-	}
-	.main-container{
-		margin-top: 33%;		
 	}
 }
 

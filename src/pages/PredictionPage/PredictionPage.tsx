@@ -11,11 +11,12 @@ import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store.ts';
-import { getPrediction, setAmount, setWindow, setError, setForecsInput, updatePrediction, deletePrediction, editForecastInPrediction} from '../../store/slices/predictionDraftSlice.ts';
+import { getPrediction, setAmount, setWindow, setError, setForecsInput, updatePrediction, deletePrediction, editForecastInPrediction, formPrediction} from '../../store/slices/predictionDraftSlice.ts';
 import { setHeaderMode } from "../../store/slices/modeSlice.ts";
 
 const PredictionPage: FC = () => {
   const { prediction_id } = useParams();
+  console.log(prediction_id)
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ const PredictionPage: FC = () => {
     }
   };
 
-  const handleSaveVacancy = () => {
+  const handleSavePrediction = () => {
     if (prediction_id) {
       try {
         dispatch(updatePrediction({ prId: prediction_id, predictionData: predictionData }));
@@ -65,6 +66,14 @@ const PredictionPage: FC = () => {
       }
     }
   }
+  const handleForm = async (e: React.FormEvent) => {
+    e.preventDefault()
+    handleSavePrediction()
+    if (prediction_id!=undefined){
+      await dispatch(formPrediction(prediction_id)).unwrap();
+      navigate(ROUTES.FORECASTS);
+    }
+  }
 
   useEffect(() => {
       dispatch(setHeaderMode("dark"));
@@ -76,13 +85,13 @@ const PredictionPage: FC = () => {
       <div className='body' style={{width: 'auto', minWidth: '100vw'}}>
       <Header up={true}/>
       <BreadCrumbs crumbs={[{ label: ROUTE_LABELS.PREDICTION, path: ROUTES.PREDICTION }]} />
-      <div className="container-2" style={{ width: '100%' }}>  
-        <div className="fav-content all-contain" style={{ width: '100%' }}>
+      <div className="container-2" style={{ width: '100%' }}>
         {(predictionData.Status == "draft") && (
           <Button className="clear-button" variant='danger' onClick={handleDelete}>
             Очистить
           </Button>
         )}
+        <div className="fav-content all-contain" style={{ width: '100%' }}>
           {error && <Alert variant="danger" style={{ width: '15vw'}}>{error}</Alert>}
           <Col md={8} xs={8} style={{margin: '5px', marginTop: '20px', width: 'auto'}}>
             <h1>Предсказание</h1>
@@ -115,12 +124,14 @@ const PredictionPage: FC = () => {
                     disabled={predictionData.Status!='draft'}
                 />
             </div>
-            <Button type="submit" className="save-button" onClick={handleSaveVacancy}>
+            {(predictionData.Status == "draft") && (
+            <Button type="submit" className="save-button" onClick={handleSavePrediction}>
               Сохранить
             </Button>
+            )}
           </div>
           <h4 style={{marginTop: '4%'}}>Выбранные прогнозы для предсказания</h4>
-          <div className="cards-wrapper-2 d-flex flex-column" style={{minWidth: '100%', width:'auto', gap: '20px', marginTop: '10px'}}>
+          <div className="cards-wrapper-2 d-flex flex-column" style={{minWidth: '100%', width:'auto', gap: '20px', marginTop: '10px', marginLeft: '4%'}}>
             {forecasts.length ? (
               forecasts.map((item) => (
                 <ForecastCard
@@ -135,6 +146,9 @@ const PredictionPage: FC = () => {
               </section>
             )}
           </div>
+          {(predictionData.Status == "draft") && (
+          <Button className='predict-button' variant="outline-success" onClick={handleForm}>Предсказать!</Button>
+          )}
         </div>
       </div>
       </div>

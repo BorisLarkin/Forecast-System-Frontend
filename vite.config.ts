@@ -12,12 +12,17 @@ export default defineConfig({
       cert: fs.readFileSync(path.resolve(__dirname, 'cert.crt')),
     },
     port: 3000,
-    host:'localhost',
+    host: true,
     proxy: {
       "/api": {
         target: "http://localhost:8080",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, "/"),
+      },
+      "/img_server":{
+        target: "http://localhost:9000",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/img_server/, "/"),
       },
     },
   },

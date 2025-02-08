@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '../../api';
-import {config,logoutUserAsync} from './userSlice'
+import {returnHeaderConfig,logoutUserAsync} from './userSlice'
 import { DsUpdatePredForecInput } from '../../api/Api';
 
 interface Measure {
@@ -56,10 +56,18 @@ const initialState: PredictionDraftState = {
   error: null,
 };
 
+export const getPredictions = createAsyncThunk(
+  'prediction/predictionDetail',
+  async ({ status, start_date, end_date }: { status: string; start_date: string, end_date: string }) => {
+    const response = await api.predictions.predictionsList({status, start_date, end_date}, returnHeaderConfig())
+    return response.data;
+  }
+);
+
 export const getPrediction = createAsyncThunk(
   'prediction/predictionDetail',
   async (prId: number) => {
-    const response = await api.prediction.predictionDetail(prId, config)
+    const response = await api.prediction.predictionDetail(prId, returnHeaderConfig())
     return response.data;
   }
 );
@@ -67,7 +75,7 @@ export const getPrediction = createAsyncThunk(
 export const addForecastToPrediction = createAsyncThunk(
   'prediction/addForecastToPrediction',
   async (fId: number) => {
-    const response = await api.forecast.toPredCreate(fId, config);
+    const response = await api.forecast.toPredCreate(fId, returnHeaderConfig());
     return response.data;
   }
 );
@@ -75,7 +83,15 @@ export const addForecastToPrediction = createAsyncThunk(
 export const deletePrediction= createAsyncThunk(
   'prediction/deletePrediction',
   async (prId: string) => {
-    const response = await api.prediction.deleteDelete(Number(prId), config);
+    const response = await api.prediction.deleteDelete(Number(prId), returnHeaderConfig());
+    return response.data;
+  }
+);
+
+export const formPrediction= createAsyncThunk(
+  'prediction/formPrediction',
+  async (prId: string) => {
+    const response = await api.prediction.formUpdate(Number(prId), returnHeaderConfig());
     return response.data;
   }
 );
@@ -87,7 +103,7 @@ export const updatePrediction = createAsyncThunk(
       prediction_amount: Number(predictionData.predictions_amount) ?? 0, 
       prediction_window: Number(predictionData.prediction_window) ?? 0,
     };
-    const response = await api.prediction.editUpdate(Number(prId), predictionDataToSend, config);
+    const response = await api.prediction.editUpdate(Number(prId), predictionDataToSend, returnHeaderConfig());
     return response.data;
   }
 );
@@ -98,7 +114,7 @@ export const deleteForecastFromPrediction = createAsyncThunk(
     await api.prFc.removeDelete(
       forecast_id,
       prediction_id,
-      config
+      returnHeaderConfig()
     ); 
   }
 );
@@ -113,7 +129,7 @@ export const editForecastInPrediction = createAsyncThunk(
       forecast_id,
       prediction_id,
       i,
-      config
+      returnHeaderConfig()
     ); 
   }
 );
@@ -242,11 +258,21 @@ const predictionDraftSlice = createSlice({
       .addCase(deletePrediction.rejected, (state) => {
         state.error = 'Ошибка при удалении вакансии';
       })
-      .addCase(updatePrediction.fulfilled, (state, action) => {
+      .addCase(updatePrediction.fulfilled, (state) => {
         state.error = null
       })
       .addCase(updatePrediction.rejected, (state) => {
         state.error = 'Ошибка при обновлении данных';
+      })
+      .addCase(formPrediction.fulfilled, (state)=>{ //new prediction is soon to appear
+        state.prediction_id = NaN;
+        state.count = NaN;
+        state.forecasts = [];
+        state.predictionData = {
+          prediction_window: 0,
+          predictions_amount: 0,
+        };
+        state.error = null
       })
   }
 });

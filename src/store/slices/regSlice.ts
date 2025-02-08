@@ -1,4 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { api } from '../../api';
+import { returnHeaderConfig } from "./userSlice";
+import { HandlerRegisterReq } from '../../api/Api';
 
 interface RegState {
     isLoading: boolean;
@@ -10,27 +13,23 @@ const initialState: RegState = {
     error: null,
 };
 
+
+
 // Async thunk для отправки данных на сервер
 export const registerUser = createAsyncThunk(
     "user/registerUser",
     async (userData: { login: string; password: string; repeat_password: string }, { rejectWithValue }) => {
         try {
-            const response = await fetch("/user/reg", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(userData),
-            });
-
-            if (!response.ok) {
-                const error = await response.json();
-                return rejectWithValue(error.message);
-            }
-
-            return await response.json();
-        } catch (error: any) {
-            return rejectWithValue(error.message);
+          let req : HandlerRegisterReq = {
+            login: userData.login,
+            password: userData.password
+          }
+          const response = await api.user.registerCreate(req, returnHeaderConfig())
+          return response.data; 
+        } catch (error) {
+          return rejectWithValue('Ошибка авторизации'); // Возвращаем ошибку в случае неудачи
         }
-    }
+      }
 );
 
 const regSlice = createSlice({

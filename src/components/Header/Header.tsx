@@ -60,17 +60,17 @@ const Header: React.FC<TopDown> = ({up}) => {
                     <div className='nav__links'>
                         {role >0 ? (
                             <>
-                                <Link to={ROUTES.FORECASTS} className='nav__link'>Прогнозы</Link>
-                                <Link to={ROUTES.PREDICTIONS} className='nav__link'>Предсказания</Link>
-                                <Link to={ROUTES.PROFILE} className='nav__link'>{login}</Link>
-                                <button className="nav__link" onClick={handleExit}>
+                                <Link to={ROUTES.FORECASTS} className={`nav__link_${mode}`}>Прогнозы</Link>
+                                <Link to={ROUTES.PREDICTIONS} className={`nav__link_${mode}`}>Предсказания</Link>
+                                <Link to={ROUTES.PROFILE} className={`nav__link_${mode}`}>{login}</Link>
+                                <button className={`nav__link_${mode}`} onClick={handleExit}>
                                     Выйти
                                 </button>
                             </>
                         ) : (
                             <>
-                                <Link to={ROUTES.REGISTER} className='nav__link'>Регистрация</Link>
-                                <Link to={ROUTES.LOGIN} className='nav__link'>Вход</Link>
+                                <Link to={ROUTES.REGISTER} className={`nav__link_${mode}`}>Регистрация</Link>
+                                <Link to={ROUTES.LOGIN} className={`nav__link_${mode}`}>Вход</Link>
                             </>
                         )}
                     </div>

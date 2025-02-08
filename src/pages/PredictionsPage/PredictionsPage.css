@@ -1,0 +1,84 @@
+.predictions-page {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+    align-items: center;
+}
+
+.predictions-filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.clickable-row {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.clickable-row:hover {
+    background-color: #43474e;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #828282;
+}
+
+.filter-group input,
+.filter-group select {
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 10px;
+    background-color: #222222;
+    color: #828282;
+    height: 40px;
+}
+
+.status-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.status-button {
+    background-color: #222222;
+    color: #828282;
+    border-radius: 10px;
+    border-bottom-color: #828282;
+    cursor: pointer;
+    font-size: 16px;
+    height: 40px;
+    padding: 0;
+    /*margin-top: 25px;*/
+}
+
+.status-button:hover {
+    background-color: #2d373c;
+}
+
+.predictions-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.predictions-table th,
+.predictions-table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 2px solid #222222;
+}
+
+thead {
+    background-color: #222222;
+}
+
+.predictions-table th {
+    color: #828282;
+}

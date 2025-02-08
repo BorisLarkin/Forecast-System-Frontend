@@ -111,10 +111,10 @@
 
 .nav {
     border-radius: 15px;
-    position: fixed;
+    position: absolute;
     padding: 0;
-    top: 30px;
-    right: 20px;
+    top: 32px;
+    right: 30px;
 }
 
 .nav__wrapper {
@@ -131,7 +131,23 @@
 
 .nav__link {
     text-decoration: none;
-    color: #0095FF;
+    color: #bee4ff;
+    position: relative;
+    background: none;
+    border: none;
+}
+
+.nav__link_light {
+    text-decoration: none;
+    color: #ffffff;
+    position: relative;
+    background: none;
+    border: none;
+}
+
+.nav__link_dark{
+    text-decoration: none;
+    color: #1e4970;
     position: relative;
     background: none;
     border: none;

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '../../api';
+import { HandlerUpdateReq } from '../../api/Api';
 
 interface UserState {
   uid?: number | null;
@@ -12,11 +13,14 @@ interface UserState {
 const tokenFromStorage = localStorage.getItem('token');
 const loginFromStorage = localStorage.getItem('login');
 
-export const config = {
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem('token')}`,
+export function returnHeaderConfig(){
+  let config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    }
   }
-}
+  return config
+};
 
 const initialState: UserState = {
   uid: tokenFromStorage ? decodeJwt(tokenFromStorage)?.Uid || null : null,
@@ -30,7 +34,7 @@ function decodeJwt(token: string): { Uid: number, Role: number } | null {
   try {
       const payload = JSON.parse(atob(token.split('.')[1]));
       return {
-          Uid: payload.Uid,
+          Uid: payload.user_uuid,
           Role: payload.Role,
       };
   } catch (error) {
@@ -56,7 +60,25 @@ export const logoutUserAsync = createAsyncThunk(
   'user/logoutUserAsync',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.user.logoutCreate(config);
+      const response = await api.user.logoutCreate(returnHeaderConfig());
+      return response.data; 
+    } catch (error) {
+      return rejectWithValue('Ошибка при выходе из системы'); 
+    }
+  }
+);
+
+// Асинхронное действие для профиля
+export const updateUserAsync = createAsyncThunk(
+  'user/updateUserAsync',
+  async ({ user_id, login, password, role }: { user_id: number; login: string, password: string, role: number }, { rejectWithValue }) => {
+    try {
+      let req: HandlerUpdateReq = {
+        login: login,
+        password: password,
+        role: role,
+      }
+      const response = await api.user.updateUpdate(user_id, req, returnHeaderConfig());
       return response.data; 
     } catch (error) {
       return rejectWithValue('Ошибка при выходе из системы'); 
@@ -67,13 +89,7 @@ export const logoutUserAsync = createAsyncThunk(
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-  restoreSession: (state) => {
-    state.token = tokenFromStorage;
-    state.role = tokenFromStorage ? decodeJwt(tokenFromStorage)?.Role || 0 : 0;
-    state.login = loginFromStorage;
-    state.uid = tokenFromStorage ? decodeJwt(tokenFromStorage)?.Uid || 0 : 0;
-  }},
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(loginUserAsync.pending, (state) => {
@@ -110,5 +126,5 @@ const userSlice = createSlice({
   },
 });
 
-export const {restoreSession} = userSlice.actions;
+export const {} = userSlice.actions;
 export default userSlice.reducer;

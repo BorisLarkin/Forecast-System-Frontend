@@ -92,7 +92,7 @@ const ForecastCard: FC<ForecastCardProps> = ({forecast, pred_status}) => {
                     </div>
                 </Col>
                 <Col xs={10} sm={10} md={10} style={{width: '70%', display: 'flex', alignItems: 'center'}}>
-                    <div className="fav-card-body" style={{width: 'auto'}}>
+                    <div className="fav-card-body" style={{width: 'auto', marginBottom: '5px', marginTop: '5px'}}>
                         <h5 style={{width: 'auto', wordBreak: 'break-all', wordWrap: 'break-word'}}>{forecast.short_title}</h5>
                         <div className="form-group">
                             <Row style={{margin: 0, width: '100%', alignItems: 'center'}}>
@@ -101,7 +101,7 @@ const ForecastCard: FC<ForecastCardProps> = ({forecast, pred_status}) => {
                                 </Col>
                                 <Col xs={9} sm={9} md={9} style={{width: 'auto', padding: 0, marginLeft: '5px'}}>
                                     <input
-                                        style={{width: '40px'}}
+                                        style={{width: '40px',padding:0}}
                                         type="number"
                                         className="localcount"
                                         value={meas?.length}

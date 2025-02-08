@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '../../api';
-import { DsForecasts } from '../../api/Api';
+import { DsForecasts, DsForecastResponse } from '../../api/Api';
 import { Forecasts_Mock } from "../../modules/mock"; // мок-данные
 import { setPredictionDraftID, setCount } from './predictionDraftSlice';
 import { logoutUserAsync } from './userSlice'
-import {config} from './userSlice'
+import {returnHeaderConfig} from './userSlice'
 
 interface ForecastsState {
+  forecast?: DsForecastResponse | null;
   searchValue: string;
   forecasts: DsForecasts[];
   loading: boolean;
@@ -14,20 +15,34 @@ interface ForecastsState {
   predictionID: string;
 }
 
+const empty_forecast: DsForecastResponse= {
+  forecast_id: 0,
+  color: '',
+  descr: '',
+  ext_desc: '',
+  image: '',
+  measure_type: '',
+  short_title: '',
+  title: ''
+}
+
 const initialState: ForecastsState = {
   searchValue: '',
   forecasts: [],
   loading: false,
   cartCount: 0,
-  predictionID: ''
+  predictionID: '',
+  forecast: empty_forecast,
 };
+
+
 
 export const getForecastsList = createAsyncThunk(
   'forecasts/getForecastsList',
   async (_, { getState, dispatch, rejectWithValue }) => {
     const { forecasts }: any = getState();
     try {
-      const response = await api.forecasts.forecastsList({forecast_name: forecasts.searchValue}, config);
+      const response = await api.forecasts.forecastsList({forecast_name: forecasts.searchValue}, returnHeaderConfig());
 
       const draft_id = response.data.prediction_id; // ID черновой заявки
       const count = response.data.prediction_size; // количество услуг в черновой заявке
@@ -42,6 +57,19 @@ export const getForecastsList = createAsyncThunk(
   }
 );
 
+export const getForecast = createAsyncThunk(
+  'forecasts/getForecast',
+  async (forecast_id: number, { rejectWithValue }) => {
+    try {
+      setForecastDetailId(forecast_id)
+      const response = await api.forecast.forecastDetail(forecast_id, returnHeaderConfig());
+      return response.data;
+    } catch (error) {
+      return rejectWithValue('Ошибка при загрузке данных');
+    }
+  }
+);
+
 const forecastsSlice = createSlice({
   name: 'forecasts',
   initialState,
@@ -49,6 +77,11 @@ const forecastsSlice = createSlice({
     setSearchValue(state, action) {
       state.searchValue = action.payload;
     },
+    setForecastDetailId(state,action){
+      if (state.forecast!=null){
+        state.forecast.forecast_id = action.payload.forecast_id
+      }
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -69,9 +102,22 @@ const forecastsSlice = createSlice({
         state.forecasts = Forecasts_Mock.filter((item) =>
           item.title.toLocaleLowerCase().includes(state.searchValue.toLocaleLowerCase())
         );
-      });
+      })
+      .addCase(getForecast.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getForecast.fulfilled, (state,action) =>{
+        state.loading=false
+        let response : DsForecastResponse
+        response = action.payload
+        state.forecast = response
+      })
+      .addCase(getForecast.rejected, (state) => {
+        state.loading = false;
+        state.forecast = Forecasts_Mock.find(Forecast => Forecast?.forecast_id === state.forecast?.forecast_id) as DsForecastResponse;
+      })
   },
 });
 
-export const { setSearchValue } = forecastsSlice.actions;
+export const { setSearchValue,setForecastDetailId } = forecastsSlice.actions;
 export default forecastsSlice.reducer;
