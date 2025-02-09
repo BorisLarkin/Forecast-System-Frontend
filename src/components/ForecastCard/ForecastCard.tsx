@@ -6,7 +6,7 @@ import "../global.css"
 import { ROUTES } from "../../Routes.tsx";
 import { useNavigate } from "react-router-dom";
 import image from "../../defaultImage.png"
-import {target_tauri, dest_img} from "../../../target-config.ts"
+import {target_tauri, self_addr} from "../../../target-config.ts"
 
 type ForecastCardProps = {
     forecast: Forecast;
@@ -21,7 +21,7 @@ const ChatCard: FC<ForecastCardProps> = ({forecast}) => {
     <div className="forecast">
       <div className="forecast_fade" style={{backgroundImage: `linear-gradient(0deg, rgba(${forecast.color}) 0%, rgba(255, 255, 255, 0) 100%)`}}></div>
       <Card className="forecast_card shadow_custom" style={{ backgroundColor: `rgba(${forecast.color})`}}>
-       <Card.Img className="forecast_img" variant="top" src={(target_tauri? dest_img + "/test" +forecast.img.split("/test").slice(-1)[0] : forecast.img) || image} onClick={handleDetails}/>
+       <Card.Img className="forecast_img" variant="top" src={(target_tauri? self_addr + "/img-proxy" + "/test" +forecast.img.split("/test").slice(-1)[0] : forecast.img) || image} onClick={handleDetails}/>
        <div className="inside_card">
        <Card.Body className="content_block">
          <Card.Title className="card_title" onClick={handleDetails}>{forecast.title}</Card.Title>
