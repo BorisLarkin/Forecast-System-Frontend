@@ -12,6 +12,7 @@ dist-ssr
 *.local
 ca.key
 cert.key
+src-tauri
 
 # Editor directories and files
 .vscode/*
