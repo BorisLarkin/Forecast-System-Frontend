@@ -27,6 +27,9 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    target: 'chrome105'
+  },
   base: dest_root,
   plugins: [react(), mkcert()],
 })
