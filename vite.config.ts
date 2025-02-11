@@ -13,7 +13,7 @@ export default defineConfig({
       cert: fs.readFileSync(path.resolve(__dirname, 'cert.crt')),
     },
     port: 3000,
-    host:'192.168.1.38',
+    host: '0.0.0.0',
     proxy: {
       "/api": {
         target: dest_api,
