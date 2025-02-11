@@ -8,6 +8,7 @@ import {returnHeaderConfig} from './userSlice'
 
 interface ForecastsState {
   forecast?: DsForecastResponse | null;
+  forecast_id?: number | null;
   searchValue: string;
   forecasts: DsForecasts[];
   loading: boolean;
@@ -16,7 +17,7 @@ interface ForecastsState {
 }
 
 const empty_forecast: DsForecastResponse= {
-  forecast_id: 0,
+  forecast_id: 1,
   color: '',
   descr: '',
   ext_desc: '',
@@ -33,6 +34,7 @@ const initialState: ForecastsState = {
   cartCount: 0,
   predictionID: '',
   forecast: empty_forecast,
+  forecast_id: 0
 };
 
 
@@ -59,9 +61,9 @@ export const getForecastsList = createAsyncThunk(
 
 export const getForecast = createAsyncThunk(
   'forecasts/getForecast',
-  async (forecast_id: number, { rejectWithValue }) => {
+  async (forecast_id: number, { dispatch, rejectWithValue }) => {
     try {
-      setForecastDetailId(forecast_id)
+              dispatch(setForecastDetailId(forecast_id))
       const response = await api.forecast.forecastDetail(forecast_id, returnHeaderConfig());
       return response.data;
     } catch (error) {
@@ -78,9 +80,8 @@ const forecastsSlice = createSlice({
       state.searchValue = action.payload;
     },
     setForecastDetailId(state,action){
-      if (state.forecast!=null){
-        state.forecast.forecast_id = action.payload.forecast_id
-      }
+      console.log('reducer call', action.payload)
+      state.forecast_id = action.payload
     }
   },
   extraReducers: (builder) => {
@@ -114,7 +115,7 @@ const forecastsSlice = createSlice({
       })
       .addCase(getForecast.rejected, (state) => {
         state.loading = false;
-        state.forecast = Forecasts_Mock.find(Forecast => Forecast?.forecast_id === state.forecast?.forecast_id) as DsForecastResponse;
+        state.forecast = Forecasts_Mock.find(Forecast => Forecast?.forecast_id === state.forecast_id) as DsForecastResponse;
       })
   },
 });

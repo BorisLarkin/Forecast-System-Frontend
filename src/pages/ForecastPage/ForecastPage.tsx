@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { Forecasts_Mock } from '../../modules/mock';
-import { Forecast } from '../../modules/types';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Image } from 'react-bootstrap';
 import { setHeaderMode } from "../../store/slices/modeSlice.ts";
@@ -22,7 +20,7 @@ const ForecastPage: React.FC = () => {
     const forecast = useSelector((state: RootState) => state.forecasts.forecast); // получение данных из стора
 
     useEffect(() => {
-      dispatch(getForecast(Number(forecast_id))); // отправляем `thunk`
+        dispatch(getForecast(Number(forecast_id))); // отправляем `thunk`
     }, [dispatch]);
 
     useEffect(() => {
