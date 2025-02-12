@@ -56,14 +56,6 @@ const initialState: PredictionDraftState = {
   error: null,
 };
 
-export const getPredictions = createAsyncThunk(
-  'prediction/predictionDetail',
-  async ({ status, start_date, end_date }: { status: string; start_date: string, end_date: string }) => {
-    const response = await api.predictions.predictionsList({status, start_date, end_date}, returnHeaderConfig())
-    return response.data;
-  }
-);
-
 export const getPrediction = createAsyncThunk(
   'prediction/predictionDetail',
   async (prId: number) => {
@@ -84,6 +76,14 @@ export const deletePrediction= createAsyncThunk(
   'prediction/deletePrediction',
   async (prId: string) => {
     const response = await api.prediction.deleteDelete(Number(prId), returnHeaderConfig());
+    return response.data;
+  }
+);
+
+export const finishPrediction= createAsyncThunk(
+  'prediction/finishPrediction',
+  async ({prId, status}:{prId: number, status: string}) => {
+    const response = await api.prediction.finishUpdate(prId, {status}, returnHeaderConfig());
     return response.data;
   }
 );
@@ -210,19 +210,27 @@ const predictionDraftSlice = createSlice({
                   }
                   item.measurements = Array.from(Array(n))
                   if (item.input==""){
-                item.measurements.length = 5
-                  const keys = Array.from(Array(5).keys())
-                  keys.map((key)=>{
-                    const it: Measure={
-                      index: key,
-                      value: ""
-                    }
-                    item.measurements==undefined? null : item.measurements[key] = it
-                  })
-                }
+                    item.measurements.length = 5
+                      const keys = Array.from(Array(5).keys())
+                      keys.map((key)=>{
+                        const it: Measure={
+                          index: key,
+                          value: ""
+                        }
+                        item.measurements==undefined? null : item.measurements[key] = it
+                      })
+                  }
                 else{
-                  const vals = item.input.split(',')
-                  item.measurements.length = vals.length
+                  let vals = item.input.split(',')
+                  if (state.predictionData.Status=='done'){
+                    let inp = item.input.split(',')
+                    let res = item.result.split(',')
+                    vals = inp.concat(res)
+                  }
+                  else{
+                    const vals = item.input.split(',')
+                    item.measurements.length = vals.length  
+                  }
                   const keys = Array.from(Array(vals.length).keys())
                   keys.map((key)=>{
                     console.log(item.input, vals.length, key)
@@ -274,6 +282,56 @@ const predictionDraftSlice = createSlice({
         };
         state.error = null
       })
+      .addCase(finishPrediction.fulfilled, (state, action) => { //to-do
+        const { prediction, forecasts } = action.payload;
+        if (prediction && forecasts) {
+            state.prediction_id = prediction.prediction_id;
+            state.predictionData = {
+                prediction_window: prediction.prediction_window,
+                predictions_amount: prediction.prediction_amount,
+                Status: prediction.status,
+                Date_created: prediction.date_created,
+                Date_completed: prediction.date_completed,
+                Date_formed: prediction.date_formed,
+            };
+            state.forecasts = forecasts || [];
+            state.error = null
+            state.forecasts.map((item) => {
+              if (item.measurements == undefined){
+                  const n: Measure={
+                    index: 0,
+                    value: ""
+                  }
+                  item.measurements = Array.from(Array(n))
+                  if (item.input==""){
+                item.measurements.length = 5
+                  const keys = Array.from(Array(5).keys())
+                  keys.map((key)=>{
+                    const it: Measure={
+                      index: key,
+                      value: ""
+                    }
+                    item.measurements==undefined? null : item.measurements[key] = it
+                  })
+                }
+                else{
+                  const vals = item.input.split(',')
+                  item.measurements.length = vals.length
+                  const keys = Array.from(Array(vals.length).keys())
+                  keys.map((key)=>{
+                    console.log(item.input, vals.length, key)
+                    const it: Measure={
+                      index: key,
+                      value: vals[key]
+                    }
+                    item.measurements==undefined? null : item.measurements[key] = it
+                  })
+                }
+              }
+            })
+        }
+      })
+
   }
 });
 

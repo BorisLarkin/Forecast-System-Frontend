@@ -19,7 +19,7 @@ const ForecastsPage = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     const { forecasts, searchValue, loading } = useSelector((state: RootState) => state.forecasts); // получение данных из стора
-    const role = useSelector((state: RootState) => state.user.role);
+    const {role} = useSelector((state: RootState) => state.user);
     const {prediction_id, count} = useSelector((state: RootState) => state.predictionDraft);
 
     useEffect(() => {

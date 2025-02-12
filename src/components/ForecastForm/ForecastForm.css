@@ -1,0 +1,32 @@
+.forecast-form {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.forecast-form div {
+    margin-bottom: 15px;
+}
+
+.forecast-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.forecast-form input,
+.forecast-form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}

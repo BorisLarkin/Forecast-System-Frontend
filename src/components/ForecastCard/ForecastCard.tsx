@@ -16,6 +16,7 @@ import MeasurementList from '../MeasureInput/MeasureInput'
 type ForecastCardProps = {
     forecast: Forecast,
     pred_status?: string,
+    input_length?:number,
 }
 
 
@@ -24,7 +25,7 @@ interface reducerResponse {
     forecast_id: number,
 }
 
-const ForecastCard: FC<ForecastCardProps> = ({forecast, pred_status}) => {
+const ForecastCard: FC<ForecastCardProps> = ({forecast, pred_status, input_length}) => {
     const navigate = useNavigate()
     const fs = useSelector((state: RootState) => state.predictionDraft.forecasts); 
     const f = fs.find(t=>t.forecast_id===forecast.forecast_id);
@@ -128,7 +129,7 @@ const ForecastCard: FC<ForecastCardProps> = ({forecast, pred_status}) => {
                     </div>
                 </Col>
             </Row>
-            <MeasurementList forecast={forecast} pred_status={pred_status} measure_amount={4}/>
+            <MeasurementList forecast={forecast} pred_status={pred_status} measure_amount={input_length? input_length : 5}/>
         </div>
     );
   }

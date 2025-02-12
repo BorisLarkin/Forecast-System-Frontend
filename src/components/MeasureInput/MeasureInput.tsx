@@ -64,7 +64,7 @@ const MeasurementList: React.FC<ListProps> = ({ measure_amount, forecast, pred_s
                   key={item.index}
                   type="text"
                   name="input"
-                  className="input_cell"
+                  className={`input_cell_${item.index? item.index >= measure_amount? 'result' : 'input' : ''}`}
                   placeholder=""
                   maxLength={8}
                   value={item.value ? item.value : ""}

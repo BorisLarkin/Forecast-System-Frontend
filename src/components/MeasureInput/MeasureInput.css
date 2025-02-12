@@ -1,4 +1,4 @@
-.input_cell{
+.input_cell_{
     width: 15%;
     min-width: 100px;
     height:100%;
@@ -15,4 +15,20 @@
     display: flex;
     flex-direction: row;
     gap: 10px;
+}
+
+.input_cell_result{
+    width: 15%;
+    min-width: 100px;
+    height:100%;
+    border-radius: 1rem;
+    text-align: center;
+    background-color: rgb(104, 255, 137);
+}
+.input_cell_input{
+    width: 15%;
+    min-width: 100px;
+    height:100%;
+    border-radius: 1rem;
+    text-align: center;
 }

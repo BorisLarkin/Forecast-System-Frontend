@@ -58,6 +58,9 @@ const Header: React.FC<TopDown> = ({up}) => {
             <nav className='nav'>
                 <div className='nav__wrapper'>
                     <div className='nav__links'>
+                        {role == 2 ? (
+                            <Link to={ROUTES.ADMIN} className={`nav__link_${mode}`}>Админка</Link>
+                            ) : (<></>)}
                         {role >0 ? (
                             <>
                                 <Link to={ROUTES.FORECASTS} className={`nav__link_${mode}`}>Прогнозы</Link>

@@ -4,6 +4,7 @@ import forecastsReducer from './slices/forecastsSlice'
 import userReducer from './slices/userSlice';
 import predictionDraftReducer from './slices/predictionDraftSlice'
 import regReducer from './slices/regSlice'
+import predictionsFilterReducer from './slices/predFilterSlice'
 
 
 const store = configureStore({
@@ -12,7 +13,8 @@ const store = configureStore({
         forecasts: forecastsReducer,
         user: userReducer,
         predictionDraft: predictionDraftReducer,
-        reg: regReducer
+        reg: regReducer,
+        predictionsFilter: predictionsFilterReducer
     }),
 });
 

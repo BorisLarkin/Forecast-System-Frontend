@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '../../api';
-import { DsForecasts, DsForecastResponse } from '../../api/Api';
+import { DsForecasts, DsForecastResponse, DsForecastRequest } from '../../api/Api';
 import { Forecasts_Mock } from "../../modules/mock"; // мок-данные
 import { setPredictionDraftID, setCount } from './predictionDraftSlice';
 import { logoutUserAsync } from './userSlice'
@@ -65,6 +65,56 @@ export const getForecast = createAsyncThunk(
     try {
               dispatch(setForecastDetailId(forecast_id))
       const response = await api.forecast.forecastDetail(forecast_id, returnHeaderConfig());
+      return response.data;
+    } catch (error) {
+      return rejectWithValue('Ошибка при загрузке данных');
+    }
+  }
+);
+
+export const editForecast = createAsyncThunk(
+  'forecasts/editForecast',
+  async ({forecast_id, forecast}:{forecast_id: number; forecast: DsForecastRequest}, { dispatch, rejectWithValue }) => {
+    try {
+      dispatch(setForecastDetailId(forecast_id))
+      const response = await api.forecast.editUpdate(forecast_id, forecast, returnHeaderConfig());
+      return response.data;
+    } catch (error) {
+      return rejectWithValue('Ошибка при загрузке данных');
+    }
+  }
+);
+
+export const addPictureToForecast = createAsyncThunk(
+  'forecasts/addPictureToForecast',
+  async ({forecast_id, image}:{forecast_id: number; image: File}, { dispatch, rejectWithValue }) => {
+    try {
+      dispatch(setForecastDetailId(forecast_id))
+      const response = await api.forecast.addPictureCreate(forecast_id, {image}, returnHeaderConfig());
+      return response.data;
+    } catch (error) {
+      return rejectWithValue('Ошибка при загрузке данных');
+    }
+  }
+);
+
+export const addForecast = createAsyncThunk(
+  'forecasts/editForecast',
+  async (forecast: DsForecastRequest, { dispatch, rejectWithValue }) => {
+    try {
+      const response = await api.forecast.postForecast(forecast, returnHeaderConfig());
+      return response.data;
+    } catch (error) {
+      return rejectWithValue('Ошибка при загрузке данных');
+    }
+  }
+);
+
+export const deleteForecast = createAsyncThunk(
+  'forecasts/deleteForecast',
+  async (forecast_id: number, { dispatch, rejectWithValue }) => {
+    try {
+      const response = await api.forecast.deleteDelete(forecast_id, returnHeaderConfig());
       return response.data;
     } catch (error) {
       return rejectWithValue('Ошибка при загрузке данных');

@@ -131,13 +131,14 @@ const PredictionPage: FC = () => {
             )}
           </div>
           <h4 style={{marginTop: '4%'}}>Выбранные прогнозы для предсказания</h4>
-          <div className="cards-wrapper-2 d-flex flex-column" style={{minWidth: '100%', width:'auto', gap: '20px', marginTop: '10px', marginLeft: '4%'}}>
+          <div className="cards-wrapper-2 d-flex flex-column" style={{minWidth: '100%', width:'auto', gap: '20px', marginTop: '10px', paddingLeft: '10px', paddingRight: '10px'}}>
             {forecasts.length ? (
               forecasts.map((item) => (
                 <ForecastCard
                   key={item.forecast_id}
                   forecast={item}
                   pred_status={predictionData.Status!=null? predictionData.Status : ""}
+                  input_length={item.input? item.input.split(',').length : undefined}
                 />
               ))
             ) : (

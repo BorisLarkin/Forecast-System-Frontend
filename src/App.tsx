@@ -7,10 +7,15 @@ import PredictionPage from './pages/PredictionPage/PredictionPage';
 import RegisterPage from './pages/RegistrationPage/RegistrationPage';
 import PredictionsPage from './pages/PredictionsPage/PredictionsPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import ForecastsEditPage from './pages/ForecastsEditPage/ForecastsEditPage';
+import ForecastEditPage from './pages/ForecastEditPage/ForecastEditPage';
 import { ROUTES } from "./Routes";
+import { RootState, AppDispatch } from './store/store';
+import { useSelector, useDispatch } from 'react-redux';
 
 
 function App() {
+    const role = useSelector((state: RootState) => state.user.role);
     return (
         <BrowserRouter basename='/Forecast-System-Frontend'>
             <Routes>
@@ -22,6 +27,9 @@ function App() {
                 <Route path={ROUTES.REGISTER} element={<RegisterPage/>} />
                 <Route path={ROUTES.PROFILE} element={<ProfilePage/>} />
                 <Route path={`${ROUTES.PREDICTIONS}`} element={<PredictionsPage/>} />
+                <Route path={`${ROUTES.FORECAST}edit/:forecast_id`} element={<ForecastEditPage/>} />
+                <Route path={`${ROUTES.FORECAST}add`} element={<ForecastEditPage/>} />
+                <Route path={ROUTES.ADMIN} element={<ForecastsEditPage/>} />
             </Routes>
         </BrowserRouter>
     );

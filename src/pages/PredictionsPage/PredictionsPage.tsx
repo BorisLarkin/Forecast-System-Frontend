@@ -4,59 +4,130 @@ import './PredictionsPage.css';
 import Header from "../../components/Header/Header.tsx";
 import {ROUTE_LABELS, ROUTES} from "../../Routes.tsx";
 import {BreadCrumbs} from "../../components/BreadCrumbs/BreadCrumbs.tsx";
-import {DsPredictions, Api} from "../../api/Api.ts";
+import {DsPredictionWithUsers, Api} from "../../api/Api.ts";
 import { returnHeaderConfig } from '../../store/slices/userSlice.ts';
-import { getPredictions } from '../../store/slices/predictionDraftSlice.ts';
+import { finishPrediction } from '../../store/slices/predictionDraftSlice.ts';
 import { api } from '../../api/index.ts';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store.ts';
 import { setHeaderMode } from "../../store/slices/modeSlice.ts";
+import {
+    setEndDate,
+    setStartDate,
+    setStatus,
+    setUsername,
+    resetFilters,
+    getPredictions
+} from "../../store/slices/predFilterSlice.ts";
+import time from '../../time.svg'
+import open_link from "../../open.svg"
+
 
 const PredictionsPage: React.FC = () => {
-    const [predictions, setPredictions] = useState<DsPredictions[]>([]);
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
     const [error, setError] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    let status=null
-    let start_date=null
-    let end_date=null
+    const [alright, setAlright] = useState<boolean | null>(null);
+    const role = useSelector((state: RootState) => state.user.role);
     const header = returnHeaderConfig().headers.Authorization
+    let {endDate, startDate, status, username, predictions_users} = useSelector((state: RootState) => state.predictionsFilter);
+
+    useEffect(() => {
+        setAlright(predictions_users!=null && predictions_users.length>0 && predictions_users!=undefined)
+    }, [predictions_users]);
 
     const fetchPredictions = async () => {
-        try {
-            const response = await api.instance.get(`/predictions`, {
-                params: {
-                    status,
-                    start_date,
-                    end_date
-                },
-                headers:{
-                    "Authorization": header,
-                }
-            });
-            setPredictions(response.data);
-        } catch (err) {
-            setError("Ошибка при загрузке.");
-        } finally {
-            setIsLoading(false);
+        await dispatch(getPredictions({status: status? status : '', start_date: startDate? startDate : '', end_date: endDate? endDate : ''}))
+    }
+
+    const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        switch (name) {
+            case 'status':
+                dispatch(setStatus(value));
+                break;
+            case 'startDate':
+                dispatch(setStartDate(value));
+                break;
+            case 'endDate':
+                dispatch(setEndDate(value));
+                break;
+            case 'username':
+                dispatch(setUsername(value));
+                break;
+            default:
+                break;
         }
+        fetchPredictions()
+    };
+
+    const updateStatus = async (prediction_id: number, status: string) => {
+        if (prediction_id==0){return}
+        await dispatch(finishPrediction({prId: prediction_id, status: status})); // Отправляем 'thunk'
     };
 
     useEffect(() => {
         dispatch(setHeaderMode("dark"));
         console.log("Written dark")
-        fetchPredictions(); 
-        const interval = setInterval(fetchPredictions, 30000);
+        dispatch(resetFilters())
+        fetchPredictions();
+        const interval = setInterval(fetchPredictions, 3000);
         return () => clearInterval(interval);
     }, []);    
 
     return (
         <>
-        <Header/>
-        <div className='body'>
+        <div className='body' style={{width:'auto', minWidth:'100vw'}}>
+            <Header up={true}/>
             <BreadCrumbs crumbs={[{ label: ROUTE_LABELS.PREDICTIONS, path: ROUTES.PREDICTIONS }]} />
             <div className="predictions-page">
+            <form className="predictions-filters">
+                    <div className="filter-group">
+                        <label htmlFor="status">Статус</label>
+                        <select
+                            id="status"
+                            name="status"
+                            value={status? status : ''}
+                            onChange={handleFilterChange}
+                        >
+                            <option value="">все</option>
+                            <option value="draft">черновик</option>
+                            <option value="pending">сформирован</option>
+                            <option value="denied">отклонён</option>
+                            <option value="done">завершён</option>
+                        </select>
+                    </div>
+                    <div className="filter-group">
+                        <label htmlFor="startDate">От</label>
+                        <input
+                            type="date"
+                            id="startDate"
+                            name="startDate"
+                            value={startDate? startDate : ''}
+                            onChange={handleFilterChange}/>
+                    </div>
+                    <div className="filter-group">
+                        <label htmlFor="endDate">До</label>
+                        <input
+                            type="date"
+                            id="endDate"
+                            name="endDate"
+                            value={endDate? endDate : ''}
+                            onChange={handleFilterChange}/>
+                    </div>
+                    {role==2 && (
+                        <div className="filter-group">
+                            <label htmlFor="username">Создатель</label>
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                value={username? username : ''}
+                                onChange={handleFilterChange}
+                                placeholder="Введите имя пользователя" />
+                        </div>
+                    )}
+                </form>
                 {error && <div className="error">{error}</div>}
                 <h1>Предсказания</h1>
                 <table className="predictions-table">
@@ -68,39 +139,70 @@ const PredictionsPage: React.FC = () => {
                         <th>Дата создания</th>
                         <th>Дата обновления</th>
                         <th>Дата завершения</th>
+                        <th>Создатель</th>
+                        <th>Действия</th>
+                        <th>QR</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {predictions.length > 0 ? (
-                        predictions.map((prediction) => (
+                    {(predictions_users!=null && predictions_users!=undefined && predictions_users.length>0)? (
+                        predictions_users.map((prediction) => (
                             <tr
-                                key={prediction.prediction_id}
+                                key={prediction.prediction.prediction_id}
                                 className="clickable-row"
-                                onClick={() => navigate(`/prediction/${prediction.prediction_id}`)}
+                                onClick={() => navigate(`/prediction/${prediction.prediction.prediction_id}`)}
                             >
-                                <td>{prediction.prediction_id}</td>
+                                <td>{prediction.prediction.prediction_id}</td>
                                 <td>
-                                    {prediction.status}
+                                    {prediction.prediction.status}
                                 </td>
                                 <td>
-                                    {prediction.prediction_amount}
+                                    {prediction.prediction.prediction_amount}
                                 </td>
-                                <td>{new Date(prediction.date_created? prediction.date_created : '').toLocaleString()}</td>
+                                <td>{new Date(prediction.prediction.date_created? prediction.prediction.date_created : '').toLocaleString()}</td>
                                 <td>
-                                    {prediction.date_formed !== '0001-01-01T02:30:17+02:30' && prediction.date_formed !== '0001-01-01T00:00:00Z'
-                                        ? new Date(prediction.date_formed? prediction.date_formed : '').toLocaleString()
+                                    {prediction.prediction.date_formed !== '0001-01-01T02:30:17+02:30' && prediction.prediction.date_formed !== '0001-01-01T00:00:00Z'
+                                        ? new Date(prediction.prediction.date_formed? prediction.prediction.date_formed : '').toLocaleString()
                                         : '-'}
                                 </td>
                                 <td>
-                                    {prediction.date_completed !== '0001-01-01T02:30:17+02:30' && prediction.date_completed !== '0001-01-01T00:00:00Z'
-                                        ? new Date(prediction.date_completed? prediction.date_completed : '').toLocaleString()
+                                    {prediction.prediction.date_completed !== '0001-01-01T02:30:17+02:30' && prediction.prediction.date_completed !== '0001-01-01T00:00:00Z'
+                                        ? new Date(prediction.prediction.date_completed? prediction.prediction.date_completed : '').toLocaleString()
                                         : '-'}
                                 </td>
+                                {role==2 && (
+                                    <>
+                                        <td>{prediction.username}</td>
+                                        <td>{prediction.prediction.status === 'pending'
+                                            ? <div className="status-buttons">
+                                                <button className="status-button" onClick={() => updateStatus(prediction.prediction.prediction_id? prediction.prediction.prediction_id : 0, "completed")}>
+                                                    Одобрить
+                                                </button>
+                                                <button className="status-button" onClick={() => updateStatus(prediction.prediction.prediction_id? prediction.prediction.prediction_id : 0, "denied")}>
+                                                    Отклонить
+                                                </button>
+                                            </div> : "-"}
+                                        </td>
+                                    </>
+                                )}
+                                <td>
+                                {prediction.prediction.status != 'done' ? (
+                                   <img className="status-icon" src={time} alt="Time Icon" />
+                                 ) : (
+                                   <div className="qr-hover-wrapper">
+                                     <img className="status-icon" src={open_link} alt="QR Icon" />
+                                     <div className="qr-hover">
+                                       {prediction.prediction.qr && <img className="qr-code" src={`data:image/png;base64,${prediction.prediction.qr}`} alt="QR Code" />}
+                                     </div>
+                                   </div>
+                                 )}
+                                </td>
+
                             </tr>
                         ))
                     ) : (
                         <tr>
-                            <td colSpan={6}>Предсказаний не существует.</td>
+                            <td colSpan={9}>Предсказаний не существует.</td>
                         </tr>
                     )}
                     </tbody>

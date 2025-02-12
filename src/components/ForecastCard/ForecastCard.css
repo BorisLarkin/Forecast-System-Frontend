@@ -134,6 +134,7 @@
     width: 30% !important;
     padding: 0;
 	height:fit-content;
+	height:inherit;
 }
 
 .actual-card{

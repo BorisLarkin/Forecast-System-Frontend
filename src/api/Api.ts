@@ -66,13 +66,20 @@ export interface DsPredictionWithForecasts {
   prediction: DsPredictions;
 }
 
+export interface DsPredictionWithUsers {
+  prediction: DsPredictions;
+  username: string;
+}
+
 export interface DsPredictions {
+  creator_id?: number;
   date_completed?: string;
   date_created?: string;
   date_formed?: string;
   prediction_amount?: number;
   prediction_id?: number;
   prediction_window?: number;
+  qr?: number[];
   status?: string;
 }
 
@@ -556,7 +563,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<DsPredictions[], void>({
+      this.request<DsPredictionWithUsers[], void>({
         path: `/predictions`,
         method: "GET",
         query: query,
