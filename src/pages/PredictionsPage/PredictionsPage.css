@@ -21,7 +21,7 @@
 }
 
 .clickable-row:hover {
-    background-color: #43474e;
+    background-color: #d6f0ffbd;
 }
 
 .filter-group {
@@ -32,7 +32,7 @@
 .filter-group label {
     font-weight: bold;
     margin-bottom: 5px;
-    color: #828282;
+    color: #000000;
 }
 
 .filter-group input,
@@ -40,8 +40,8 @@
     padding: 5px;
     font-size: 16px;
     border-radius: 10px;
-    background-color: #222222;
-    color: #828282;
+    background-color: #e1f8ff54;
+    color: #000000;
     height: 40px;
 }
 
@@ -51,8 +51,8 @@
 }
 
 .status-button {
-    background-color: #222222;
-    color: #828282;
+    background-color: #cdf5ff65;
+    color: #000000;
     border-radius: 10px;
     border-bottom-color: #828282;
     cursor: pointer;
@@ -63,7 +63,7 @@
 }
 
 .status-button:hover {
-    background-color: #2d373c;
+    background-color: #9dd4f057;
 }
 
 .predictions-table {
@@ -80,11 +80,11 @@
 }
 
 thead {
-    background-color: #222222;
+    background-color: #e7f5fda4;
 }
 
 .predictions-table th {
-    color: #828282;
+    color: #000000;
 }
 
 .dinner-icon {

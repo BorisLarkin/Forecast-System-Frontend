@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import mkcert from 'vite-plugin-mkcert'
 import fs from 'fs';
 import path from 'path';
+import {dest_api, dest_img, dest_root} from "./target-config"
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,14 +16,14 @@ export default defineConfig({
     host: true,
     proxy: {
       "/api": {
-        target: "http://localhost:8080",
+        target: dest_api,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, "/"),
       },
-      "/img_server":{
-        target: "http://localhost:9000",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/img_server/, "/"),
+      "/img-proxy": {
+           target: dest_img,
+           changeOrigin: true,
+           rewrite: (path) => path.replace(/^\/img-proxy/, "/"),
       },
     },
   },

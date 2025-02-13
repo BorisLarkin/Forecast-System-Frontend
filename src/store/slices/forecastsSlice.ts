@@ -167,6 +167,9 @@ const forecastsSlice = createSlice({
         state.loading = false;
         state.forecast = Forecasts_Mock.find(Forecast => Forecast?.forecast_id === state.forecast_id) as DsForecastResponse;
       })
+      .addCase(addForecast.fulfilled, (state,action) => {
+        state.forecast_id = action.payload.forecast_id;
+      })
   },
 });
 

@@ -297,7 +297,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/forecast/add
      */
     postForecast: (forecast: DsForecastRequest, params: RequestParams = {}) =>
-      this.request<DsForecastRequest, DsForecasts>({
+      this.request<DsForecasts, void>({
         path: `/forecast/add`,
         method: "POST",
         body: forecast,

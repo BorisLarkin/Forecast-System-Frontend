@@ -39,8 +39,9 @@ const LoginPage: React.FC = () => {
     return (
         <Container style={{ maxWidth: '100%', marginTop: '0' }}> 
             <Header/>
+            <div className='body'>
             <Container style={{ maxWidth: '400px', marginTop: '150px' }}>
-                <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Рады снова Вас видеть!</h2>
+                <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Вход</h2>
                 {error && <Alert variant="danger">{error}</Alert>}
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="username" style={{ marginBottom: '15px' }}>
@@ -68,6 +69,7 @@ const LoginPage: React.FC = () => {
                     </Button>
                 </Form>
             </Container>
+            </div>
         </Container>
     );
 };

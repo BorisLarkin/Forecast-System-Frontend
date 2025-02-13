@@ -19,6 +19,7 @@ const ForecastEditPage: React.FC = () => {
     const { forecast_id } = useParams();
 
     const forecast = useSelector((state: RootState) => state.forecasts.forecast); // получение данных из стора
+    const fid = useSelector((state: RootState) => state.forecasts.forecast_id); 
 
     useEffect(() => {
         dispatch(getForecast(Number(forecast_id))); // отправляем `thunk`
@@ -68,7 +69,7 @@ const ForecastEditPage: React.FC = () => {
 
             if (data.image) {
                dispatch(addPictureToForecast({
-                    forecast_id: forecast_id ? parseInt(forecast_id) : 0,
+                    forecast_id: fid ? fid : 0,
                     image: data.image,
                 }));
             }

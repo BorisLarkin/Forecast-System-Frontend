@@ -9,6 +9,8 @@ import PredictionsPage from './pages/PredictionsPage/PredictionsPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import ForecastsEditPage from './pages/ForecastsEditPage/ForecastsEditPage';
 import ForecastEditPage from './pages/ForecastEditPage/ForecastEditPage';
+import Page403 from './pages/Page403/Page403';
+import Page404 from './pages/Page404/Page404';
 import { ROUTES } from "./Routes";
 import { RootState, AppDispatch } from './store/store';
 import { useSelector, useDispatch } from 'react-redux';
@@ -22,14 +24,15 @@ function App() {
                 <Route path={ROUTES.HOME} index element={<MainPage/>} />
                 <Route path={ROUTES.FORECASTS} element={<ForecastsPage/>} />
                 <Route path={`${ROUTES.FORECAST}:forecast_id`} element={<ForecastPage/>} />
-                <Route path={`${ROUTES.LOGIN}`} element={<LoginPage/>} />
-                <Route path={`${ROUTES.PREDICTION}:prediction_id`} element={<PredictionPage />} />
-                <Route path={ROUTES.REGISTER} element={<RegisterPage/>} />
-                <Route path={ROUTES.PROFILE} element={<ProfilePage/>} />
-                <Route path={`${ROUTES.PREDICTIONS}`} element={<PredictionsPage/>} />
-                <Route path={`${ROUTES.FORECAST}edit/:forecast_id`} element={<ForecastEditPage/>} />
-                <Route path={`${ROUTES.FORECAST}add`} element={<ForecastEditPage/>} />
-                <Route path={ROUTES.ADMIN} element={<ForecastsEditPage/>} />
+                <Route path={`${ROUTES.LOGIN}`} element={role==0 ? <LoginPage /> : <Page403 />} />
+                <Route path={`${ROUTES.PREDICTION}:prediction_id`} element={role>0 ? <PredictionPage /> : <Page403 />}/>
+                <Route path={ROUTES.REGISTER} element={role==0 ? <RegisterPage /> : <Page403 />} />
+                <Route path={ROUTES.PROFILE} element={role>0 ? <ProfilePage /> : <Page403 />} />
+                <Route path={`${ROUTES.PREDICTIONS}`} element={role>0 ? <PredictionsPage /> : <Page403 />} />
+                <Route path={`${ROUTES.FORECAST}edit/:forecast_id`} element={role==2 ? <ForecastEditPage /> : <Page403 />} />
+                <Route path={`${ROUTES.FORECAST}add`} element={role==2 ? <ForecastEditPage /> : <Page403 />} />
+                <Route path={ROUTES.ADMIN} element={role==2 ? <ForecastsEditPage /> : <Page403 />} />
+                <Route path="*" element={<Page404 />} />
             </Routes>
         </BrowserRouter>
     );

@@ -5,10 +5,10 @@ import {returnHeaderConfig} from './userSlice'
 
 
 interface PredictionsFilterState {
-    status?: string | null;
-    startDate?: string | null;
-    endDate?: string | null;
-    username?: string | null;
+    status: string ;
+    startDate: string ;
+    endDate: string ;
+    username: string ;
 
     predictions_users?: DsPredictionWithUsers[] | null;
 }
@@ -23,9 +23,14 @@ const initialState: PredictionsFilterState = {
 
 export const getPredictions = createAsyncThunk(
     'PredictionsFilter/getPredictions',
-    async ({ status, start_date, end_date }: { status: string; start_date: string, end_date: string }) => {
-      const response = await api.predictions.predictionsList({status, start_date, end_date}, returnHeaderConfig())
-      return response.data;
+    async ({ status, start_date, end_date }: { status: string; start_date: string, end_date: string }, { rejectWithValue }) => {
+        try{
+            const response = await api.predictions.predictionsList({status: status, start_date: start_date, end_date: end_date}, returnHeaderConfig())
+            return response.data;
+
+        } catch(error){
+            return rejectWithValue('Ошибка при загрузке данных');
+        }
     }
   );
 
@@ -49,19 +54,19 @@ const PredictionsFilterSlice = createSlice({
             state.predictions_users = action.payload
         },
         resetFilters(state) {
-            state.status = null;
-            state.startDate = null;
-            state.endDate = null;
-            state.username = null;
+            state.status = '';
+            state.startDate = '';
+            state.endDate = '';
+            state.username = '';
         },
     },
     extraReducers: (builder) => {
         builder
           .addCase(getPredictions.fulfilled, (state,action) => {
             state.predictions_users = action.payload;
-            if (state.username!=null && state.username!=undefined) {
-                let name = state.username? state.username : ''
-                state.predictions_users.filter((pr) =>  pr.username?.toLowerCase().includes(name.toLowerCase()))
+            if (state.username!='') {
+                console.log('checked',state.username)
+                state.predictions_users = state.predictions_users.filter((pr) =>  pr.username.toLowerCase().includes(state.username.toLowerCase()))
             }
           })
     }

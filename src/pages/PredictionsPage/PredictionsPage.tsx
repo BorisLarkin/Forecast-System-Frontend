@@ -27,39 +27,13 @@ const PredictionsPage: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
     const [error, setError] = useState<string | null>(null);
-    const [alright, setAlright] = useState<boolean | null>(null);
     const role = useSelector((state: RootState) => state.user.role);
     const header = returnHeaderConfig().headers.Authorization
-    let {endDate, startDate, status, username, predictions_users} = useSelector((state: RootState) => state.predictionsFilter);
-
-    useEffect(() => {
-        setAlright(predictions_users!=null && predictions_users.length>0 && predictions_users!=undefined)
-    }, [predictions_users]);
+    const filters = useSelector((state: RootState) => state.predictionsFilter);
 
     const fetchPredictions = async () => {
-        await dispatch(getPredictions({status: status? status : '', start_date: startDate? startDate : '', end_date: endDate? endDate : ''}))
+        await dispatch(getPredictions({status: filters.status, start_date: filters.startDate, end_date: filters.endDate}))
     }
-
-    const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        switch (name) {
-            case 'status':
-                dispatch(setStatus(value));
-                break;
-            case 'startDate':
-                dispatch(setStartDate(value));
-                break;
-            case 'endDate':
-                dispatch(setEndDate(value));
-                break;
-            case 'username':
-                dispatch(setUsername(value));
-                break;
-            default:
-                break;
-        }
-        fetchPredictions()
-    };
 
     const updateStatus = async (prediction_id: number, status: string) => {
         if (prediction_id==0){return}
@@ -68,12 +42,14 @@ const PredictionsPage: React.FC = () => {
 
     useEffect(() => {
         dispatch(setHeaderMode("dark"));
-        console.log("Written dark")
         dispatch(resetFilters())
-        fetchPredictions();
+        fetchPredictions()
+    }, []);
+
+    useEffect(() => {
         const interval = setInterval(fetchPredictions, 3000);
         return () => clearInterval(interval);
-    }, []);    
+    });
 
     return (
         <>
@@ -87,8 +63,8 @@ const PredictionsPage: React.FC = () => {
                         <select
                             id="status"
                             name="status"
-                            value={status? status : ''}
-                            onChange={handleFilterChange}
+                            value={filters.status? filters.status : ''}
+                            onChange={(event => dispatch(setStatus(event.target.value)))}
                         >
                             <option value="">все</option>
                             <option value="draft">черновик</option>
@@ -103,8 +79,8 @@ const PredictionsPage: React.FC = () => {
                             type="date"
                             id="startDate"
                             name="startDate"
-                            value={startDate? startDate : ''}
-                            onChange={handleFilterChange}/>
+                            value={filters.startDate? filters.startDate : ''}
+                            onChange={(event => dispatch(setStartDate(event.target.value)))}/>
                     </div>
                     <div className="filter-group">
                         <label htmlFor="endDate">До</label>
@@ -112,8 +88,8 @@ const PredictionsPage: React.FC = () => {
                             type="date"
                             id="endDate"
                             name="endDate"
-                            value={endDate? endDate : ''}
-                            onChange={handleFilterChange}/>
+                            value={filters.endDate? filters.endDate : ''}
+                            onChange={(event => dispatch(setEndDate(event.target.value)))}/>
                     </div>
                     {role==2 && (
                         <div className="filter-group">
@@ -122,8 +98,8 @@ const PredictionsPage: React.FC = () => {
                                 type="text"
                                 id="username"
                                 name="username"
-                                value={username? username : ''}
-                                onChange={handleFilterChange}
+                                value={filters.username? filters.username : ''}
+                                onChange={(event => dispatch(setUsername(event.target.value)))}
                                 placeholder="Введите имя пользователя" />
                         </div>
                     )}
@@ -139,14 +115,14 @@ const PredictionsPage: React.FC = () => {
                         <th>Дата создания</th>
                         <th>Дата обновления</th>
                         <th>Дата завершения</th>
-                        <th>Создатель</th>
-                        <th>Действия</th>
+                        {role==2 && (<th>Создатель</th>)}
+                        {role==2 && (<th>Действия</th>)}
                         <th>QR</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {(predictions_users!=null && predictions_users!=undefined && predictions_users.length>0)? (
-                        predictions_users.map((prediction) => (
+                    {(filters.predictions_users!=null && filters.predictions_users!=undefined && filters.predictions_users.length>0)? (
+                        filters.predictions_users.map((prediction) => (
                             <tr
                                 key={prediction.prediction.prediction_id}
                                 className="clickable-row"
